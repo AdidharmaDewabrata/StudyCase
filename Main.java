@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public class Main {
     public static void main(String[] args) {
-
+        Pelanggan p = new Pelanggan();
         //frame homepage
         JFrame home = new JFrame();
         home.setSize(800, 500);
@@ -91,8 +91,6 @@ public class Main {
         tAkhir.setBackground(Color.white);
         home.add(tAkhir);
 
-//        Pelanggan.setHarga(tAwal.get);
-
         //Harga
         JLabel harga =  new JLabel();
         harga.setText("Harga Tiket");
@@ -104,10 +102,24 @@ public class Main {
         //Text Harga
         JTextArea display = new JTextArea();
         display.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        display.setText("Rp. ");
+        display.setText("Rp. "+p.getHarga(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString())+",000");
         display.setEditable(false);
         display.setBounds(425, 210, 300, 25);
         home.add(display);
+
+        ActionListener updateHarga = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String fromCity = tAwal.getSelectedItem().toString();
+                String toCity = tAkhir.getSelectedItem().toString();
+                int currentPrice = p.getHarga(fromCity, toCity);
+                display.setText("Rp. " + currentPrice + ",000");
+            }
+        };
+
+        tAwal.addActionListener(updateHarga);
+        tAkhir.addActionListener(updateHarga);
+
 
         home.setVisible(true);
 
