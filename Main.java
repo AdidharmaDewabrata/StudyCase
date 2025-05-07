@@ -150,6 +150,16 @@ public class Main {
         tAwal.addActionListener(updateHarga);
         tAkhir.addActionListener(updateHarga);
 
+
+
+
+
+
+
+
+
+
+
         // button lihat layout bis
         JButton layout = new JButton();
         layout.setText("Pilih Kursi");
