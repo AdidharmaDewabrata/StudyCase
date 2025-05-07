@@ -12,7 +12,18 @@ public class Pelanggan {
         this.tAkhir = tAkhir;
     }
 
-
+    public String getNama() {return nama;}
+    public void setNama(String nama) {this.nama = nama;}
+    public String getTAwal() {return tAwal;}
+    public void setTAwal(String tAwal) { this.tAwal = tAwal;}
+    public String getTAkhir() {return tAkhir;}
+    public void setTAkhir(String tAkhir) { this.tAkhir = tAkhir;}
+    public String getNik() {return nik;}
+    public void setNik(String nik) { this.nik = nik;}
+    public String getNoHP() {return noHP;}
+    public void setNoHP(String noHP) {this.noHP = noHP;}
+    public String getNoKursi() {return noKursi;}
+    public void setNoKursi(String noKursi) {this.noKursi = noKursi;}
 
     public int getHarga(String tAwal, String tAkhir) {
         int[][] hargabis = {

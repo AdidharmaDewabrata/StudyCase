@@ -151,14 +151,7 @@ public class Main {
         tAkhir.addActionListener(updateHarga);
 
 
-
-
-
-
-
-
-
-
+        home.setVisible(true);
 
         // button lihat layout bis
         JButton layout = new JButton();
