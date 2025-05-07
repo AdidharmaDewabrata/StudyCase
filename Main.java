@@ -123,25 +123,6 @@ public class Main {
 
         home.setVisible(true);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // button lihat layout bis
         JButton layout = new JButton();
         layout.setText("Pilih Kursi");
