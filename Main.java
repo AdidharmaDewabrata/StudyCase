@@ -3,6 +3,7 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.event.*;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
@@ -150,10 +151,45 @@ public class Main {
         layout.setText("Pilih Kursi");
         layout.setBounds(600, 390, 150, 40);
         home.add(layout);
+
+        //Warning belom diisi
+        JLabel[] warn = new JLabel[3];
+
+        for(int i=0;i<warn.length;i++) {
+            warn[i] = new JLabel();
+            warn[i].setFont(new Font("Tahoma", Font.BOLD, 12));
+            warn[i].setForeground(Color.red);
+            warn[i].setText("* Isi ini terlebih dahulu");
+            home.add(warn[i]);
+            warn[i].setVisible(false);
+        }
+
+        warn[0].setBounds(180, 60, 200, 25);
+        warn[1].setBounds(180, 120, 200, 25);
+        warn[2].setBounds(180, 180, 200, 25);
+
+
         // Buka layout page
         layout.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                new Bis();
+                if(isiNama.getText()!=null){
+                    warn[0].setVisible(false);
+                }if(isiNoHP.getText()!=null){
+                    warn[1].setVisible(false);
+                }if(isiNik.getText()!=null){
+                    warn[2].setVisible(false);
+                }if(isiNama.getText().isEmpty()){
+                    warn[0].setVisible(true);
+                }if(isiNik.getText().isEmpty()){
+                    warn[1].setVisible(true);
+                }if(isiNoHP.getText().isEmpty()){
+                    warn[2].setVisible(true);
+                }
+
+
+                if(!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
+                    new Bis();
+                }
             }
         });
     }
