@@ -77,7 +77,7 @@ public class Pelanggan {
         else if(index2 == index){
             s =  "Titik keberangkatan tidak boleh sama dengan titik tujuan";
         }
-        else {s = "";}
+        else {s = " ";}
 
         return s;
     }

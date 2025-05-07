@@ -18,8 +18,8 @@ public class Bis extends Main{
         kursiPanel.setPreferredSize(new Dimension(580, 1100)); // Panjang vertikal agar scroll muncul
         kursiPanel.setBackground(Color.LIGHT_GRAY);
 
-            // ScrollPane membungkus panel
-            JScrollPane scrollPane = new JScrollPane(kursiPanel);
+        // ScrollPane membungkus panel
+        JScrollPane scrollPane = new JScrollPane(kursiPanel);
         scrollPane.setBounds(0, 0, 600, 800); // Ukuran full frame
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -150,5 +150,5 @@ public class Bis extends Main{
                 }
             }
         frame.setVisible(true);
+        }
     }
-}

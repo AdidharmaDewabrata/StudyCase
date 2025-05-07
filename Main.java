@@ -114,6 +114,7 @@ public class Main {
         warning.setFont(new Font("Tahoma", Font.BOLD, 12));
         warning.setForeground(Color.red);
         warning.setBounds(400, 240, 375, 25);
+        final boolean[] t = {false};
         home.add(warning);
 
         ActionListener cekRute = new ActionListener() {
@@ -124,6 +125,12 @@ public class Main {
                 String c = p.checkRoute(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString());
                 warning.setText(c);
                 warning.setVisible(true);
+                
+                if(c.equals(" ")){
+                    t[0] = true;
+                } else {
+                    t[0] = false;
+                }
             }
         };
 
@@ -142,9 +149,6 @@ public class Main {
 
         tAwal.addActionListener(updateHarga);
         tAkhir.addActionListener(updateHarga);
-
-
-        home.setVisible(true);
 
         // button lihat layout bis
         JButton layout = new JButton();
@@ -188,9 +192,14 @@ public class Main {
 
 
                 if(!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
-                    new Bis();
+                    if(t[0]) {
+                        new Bis();
+                    }
                 }
             }
         });
+        
+        home.setVisible(true);
+        
     }
 }
