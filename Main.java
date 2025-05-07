@@ -3,6 +3,7 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.event.*;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
@@ -107,6 +108,35 @@ public class Main {
         display.setBounds(425, 210, 300, 25);
         home.add(display);
 
+        //cekrute
+        JLabel warning = new JLabel();
+        warning.setVisible(false);
+        warning.setFont(new Font("Tahoma", Font.BOLD, 12));
+        warning.setForeground(Color.red);
+        warning.setBounds(400, 240, 375, 25);
+        final boolean[] t = {false};
+        home.add(warning);
+
+        ActionListener cekRute = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String fromCity = tAwal.getSelectedItem().toString();
+                String toCity = tAkhir.getSelectedItem().toString();
+                String c = p.checkRoute(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString());
+                warning.setText(c);
+                warning.setVisible(true);
+                
+                if(c.equals(" ")){
+                    t[0] = true;
+                } else {
+                    t[0] = false;
+                }
+            }
+        };
+
+        tAwal.addActionListener(cekRute);
+        tAkhir.addActionListener(cekRute);
+
         ActionListener updateHarga = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -129,159 +159,50 @@ public class Main {
         layout.setBounds(600, 390, 150, 40);
         home.add(layout);
 
+        //Warning belom diisi
+        JLabel[] warn = new JLabel[3];
 
+        for(int i=0;i<warn.length;i++) {
+            warn[i] = new JLabel();
+            warn[i].setFont(new Font("Tahoma", Font.BOLD, 12));
+            warn[i].setForeground(Color.red);
+            warn[i].setText("* Isi ini terlebih dahulu");
+            home.add(warn[i]);
+            warn[i].setVisible(false);
+        }
 
-        //frame layout
-        JFrame frame = new JFrame();
-        frame.setSize(600, 800);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLayout(null); // Tetap null agar scrollPane bisa diposisikan manual
+        warn[0].setBounds(180, 60, 200, 25);
+        warn[1].setBounds(180, 120, 200, 25);
+        warn[2].setBounds(180, 180, 200, 25);
 
-// Panel untuk kursi dan semua komponen layout bis
-        JPanel kursiPanel = new JPanel();
-        kursiPanel.setLayout(null);
-        kursiPanel.setPreferredSize(new Dimension(580, 1100)); // Panjang vertikal agar scroll muncul
-        kursiPanel.setBackground(Color.LIGHT_GRAY);
-
-// ScrollPane membungkus panel
-        JScrollPane scrollPane = new JScrollPane(kursiPanel);
-        scrollPane.setBounds(0, 0, 600, 800); // Ukuran full frame
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-// Tambahkan scrollPane ke frame
-        frame.add(scrollPane);
-        frame.setVisible(false);
-
-
-        //Layout Bis
-                //Pintu's
-                JLabel label = new JLabel();
-                label.setText("Pintu Depan");
-                label.setFont(new Font("Times New Roman", Font.BOLD, 15));
-
-                JLabel label2 = new JLabel();
-                label2.setText("Pintu Belakang");
-                label2.setFont(new Font("Times New Roman", Font.BOLD, 15));
-
-                label.setBounds(10, -200, 500, 500);
-                label2.setBounds(10, 340, 500, 500);
-
-                kursiPanel.add(label);
-                kursiPanel.add(label2);
-
-                //Konduktor
-                JButton konduktor = new JButton();
-                konduktor.setText("Konduktor");
-                konduktor.setBounds(10, 80, 100, 30);
-                konduktor.setOpaque(true);
-                kursiPanel.add(konduktor);
-
-                //Driver
-                JButton driver = new JButton();
-                driver.setText("Driver");
-                driver.setBounds(435, 60, 100, 40);
-                kursiPanel.add(driver);
-
-                //Seat A
-                JButton[] A = new JButton[18];
-
-                String a = "A";
-                int x = 10;
-                int y = 80;
-
-                for(int i = 0; i < A.length; i++){
-                    A[i] = new JButton();
-                    A[i].setFont(new Font("Times New Roman", Font.BOLD, 13));
-                    A[i].setText(a+(i+1));
-                    A[i].setBorder(new LineBorder(Color.black,1));
-                    if(i%2 == 0){
-                        x = 10;
-                        y+= 50;
-                    }
-                    else{
-                        x += 95;
-                    }
-                    A[i].setBounds(x, y, 90, 30);
-                    A[i].setBackground(Color.green);
-                    kursiPanel.add(A[i]);
-                }
-
-                //Seat B
-                JButton[] B = new JButton[22];
-
-                String b = "B";
-                int x2 = 370;
-                int y2 = 80;
-
-                for(int i = 0; i < B.length; i++){
-                    B[i] = new JButton();
-                    B[i].setFont(new Font("Times New Roman", Font.BOLD, 13));
-                    B[i].setBorder(new LineBorder(Color.black,1));
-                    B[i].setText(b+(i+1));
-
-                    if(i%2 == 0){
-                        x2 = 370;
-                        y2+= 50;
-                    }
-
-                    else{
-                        x2 += 95;
-                    }
-
-                    B[i].setBounds(x2, y2, 90, 30);
-                    B[i].setBackground(Color.green);
-                    kursiPanel.add(B[i]);
-                }
-
-                //Toilet
-                JButton toilet = new JButton();
-                toilet.setText("Toilet");
-                toilet.setBounds(10, 620, 180, 40);
-                kursiPanel.add(toilet);
-
-                //Selanjutnya
-                JButton next = new JButton();
-                next.setText("Selanjutnya");
-                next.setBounds(370, 700, 180, 40);
-                kursiPanel.add(next);
 
         // Buka layout page
         layout.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                frame.setVisible(true);
-                }
-            }
-        );
-
-        // ganti warna if clicked
-        for(int i = 0; i<B.length; i++){
-            int finalI = i;
-            B[i].addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if(B[finalI].getBackground() == Color.yellow){
-                        B[finalI].setBackground(Color.green);
-                    }
-                    else {
-                        B[finalI].setBackground(Color.yellow);
-                    }
+                if(isiNama.getText()!=null){
+                    warn[0].setVisible(false);
+                }if(isiNoHP.getText()!=null){
+                    warn[1].setVisible(false);
+                }if(isiNik.getText()!=null){
+                    warn[2].setVisible(false);
+                }if(isiNama.getText().isEmpty()){
+                    warn[0].setVisible(true);
+                }if(isiNik.getText().isEmpty()){
+                    warn[1].setVisible(true);
+                }if(isiNoHP.getText().isEmpty()){
+                    warn[2].setVisible(true);
                 }
 
-            });
 
-            if(i<17) {
-                int finalI1 = i;
-                A[i].addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if(A[finalI1].getBackground() == Color.yellow){
-                            A[finalI1].setBackground(Color.green);
-                        }
-                        else {
-                            A[finalI1].setBackground(Color.yellow);
-                        }
+                if(!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
+                    if(t[0]) {
+                        new Bis();
                     }
-                });
+                }
             }
-        }
-
+        });
+        
+        home.setVisible(true);
+        
     }
 }

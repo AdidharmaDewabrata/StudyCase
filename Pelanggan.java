@@ -28,12 +28,12 @@ public class Pelanggan {
     public int getHarga(String tAwal, String tAkhir) {
         int[][] hargabis = {
                 {0, 35, 45, 55, 60, 70, 80}, //Wilangan
-                {0, 0, 25, 30, 40, 45, 60}, //Ngawi
-                {0, 0, 0, 25, 35, 40, 55}, //Gendingan
-                {0, 0, 0, 0, 15, 15, 30}, //Solo
-                {0, 0, 0, 0, 0, 15, 30}, //Kartosuro
-                {0, 0, 0, 0, 0, 0, 15}, //Jogja
-                {0, 0, 0, 0, 0, 0, 0}  //Magelang
+                {0, 0,  25, 30, 40, 45, 60}, //Ngawi
+                {0, 0,  0,  25, 35, 40, 55}, //Gendingan
+                {0, 0,  0,  0,  15, 15, 30}, //Solo
+                {0, 0,  0,  0,  0,  15, 30}, //Kartosuro
+                {0, 0,  0,  0,  0,  0,  15}, //Jogja
+                {0, 0,  0,  0,  0,  0,  0 }  //Magelang
         };
 
         int index = -1;
@@ -66,6 +66,31 @@ public class Pelanggan {
         harga = hargabis[index][index2];
         return harga;
 
+    }
+
+    public String checkRoute(String tAwal, String tAkhir){
+        String fromCity = tAwal.toUpperCase();
+        String toCity = tAkhir.toUpperCase();
+        String s = "";
+
+        for (int i = 0; i < list.length; i++) {
+            if (fromCity.equals(list[i])) {
+                index = i;
+            }
+            if (toCity.equals(list[i])) {
+                index2 = i;
+            }
+        }
+
+        if(index2 < index){
+            s =  "Titik tujuan tidak boleh mendahului titik keberangkatan";
+        }
+        else if(index2 == index){
+            s =  "Titik keberangkatan tidak boleh sama dengan titik tujuan";
+        }
+        else {s = " ";}
+
+        return s;
     }
 
 
