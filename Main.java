@@ -153,11 +153,26 @@ public class Main {
         //frame layout
         JFrame frame = new JFrame();
         frame.setSize(600, 800);
-        frame.getContentPane().setBackground(Color.LIGHT_GRAY);
-        frame.setLayout(null);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLayout(null); // Tetap null agar scrollPane bisa diposisikan manual
+
+// Panel untuk kursi dan semua komponen layout bis
+        JPanel kursiPanel = new JPanel();
+        kursiPanel.setLayout(null);
+        kursiPanel.setPreferredSize(new Dimension(580, 1100)); // Panjang vertikal agar scroll muncul
+        kursiPanel.setBackground(Color.LIGHT_GRAY);
+
+// ScrollPane membungkus panel
+        JScrollPane scrollPane = new JScrollPane(kursiPanel);
+        scrollPane.setBounds(0, 0, 600, 800); // Ukuran full frame
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+// Tambahkan scrollPane ke frame
+        frame.add(scrollPane);
         frame.setVisible(false);
 
-            //Layout Bis
+
+        //Layout Bis
                 //Pintu's
                 JLabel label = new JLabel();
                 label.setText("Pintu Depan");
@@ -170,21 +185,21 @@ public class Main {
                 label.setBounds(10, -200, 500, 500);
                 label2.setBounds(10, 340, 500, 500);
 
-                frame.add(label);
-                frame.add(label2);
+                kursiPanel.add(label);
+                kursiPanel.add(label2);
 
                 //Konduktor
                 JButton konduktor = new JButton();
                 konduktor.setText("Konduktor");
                 konduktor.setBounds(10, 80, 100, 30);
                 konduktor.setOpaque(true);
-                frame.add(konduktor);
+                kursiPanel.add(konduktor);
 
                 //Driver
                 JButton driver = new JButton();
                 driver.setText("Driver");
                 driver.setBounds(435, 60, 100, 40);
-                frame.add(driver);
+                kursiPanel.add(driver);
 
                 //Seat A
                 JButton[] A = new JButton[18];
@@ -207,7 +222,7 @@ public class Main {
                     }
                     A[i].setBounds(x, y, 90, 30);
                     A[i].setBackground(Color.green);
-                    frame.add(A[i]);
+                    kursiPanel.add(A[i]);
                 }
 
                 //Seat B
@@ -234,20 +249,20 @@ public class Main {
 
                     B[i].setBounds(x2, y2, 90, 30);
                     B[i].setBackground(Color.green);
-                    frame.add(B[i]);
+                    kursiPanel.add(B[i]);
                 }
 
                 //Toilet
                 JButton toilet = new JButton();
                 toilet.setText("Toilet");
                 toilet.setBounds(10, 620, 180, 40);
-                frame.add(toilet);
+                kursiPanel.add(toilet);
 
                 //Selanjutnya
                 JButton next = new JButton();
                 next.setText("Selanjutnya");
                 next.setBounds(370, 700, 180, 40);
-                frame.add(next);
+                kursiPanel.add(next);
 
         // Buka layout page
         layout.addActionListener(new ActionListener(){
