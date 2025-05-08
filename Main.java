@@ -272,11 +272,10 @@ public class Main {
 
                 if (!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
                     if (t[0] && !b[0] && !b[1]) {
-                                new Bis(isiNama.getText(), nik1[0], no[0], titik[0], titik[1], price[0]);
-                              //home.setVisible(false);
-//                            }
-                        }
+                        new Bis(isiNama.getText(), nik1[0], no[0], titik[0], titik[1], price[0]);
+                        //home.setVisible(false);
                     }
+                }
             }
         });
     }
