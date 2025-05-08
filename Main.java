@@ -66,13 +66,13 @@ public class Main {
 
         final int[] nik1 = {0};
 
-        try{
-            for(int i = 0; i < alphabet.length; i++){
-                if(isiNik.getText().equalsIgnoreCase(String.valueOf(alphabet[i]))){
-                    warn3.setVisible(true);
-                }
-            }
-        }
+//        try{
+//            for(int i = 0; i < alphabet.length; i++){
+//                if(isiNik.getText().equalsIgnoreCase(String.valueOf(alphabet[i]))){
+//                    warn3.setVisible(true);
+//                }
+//            }
+//        }
 
         //Textfield No Handphone
         JLabel noHP =  new JLabel();
