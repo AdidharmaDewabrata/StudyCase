@@ -1,13 +1,11 @@
 import java.awt.*;
-import java.io.*;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.event.*;
 import java.util.Objects;
 
 public class Main {
     static int counter = 0;
-    static Character[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    static String[] alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "u", "V", "W", "X", "Y", "Z"};
     public static void main(String[] args) {
         Pelanggan p = new Pelanggan();
         //frame homepage
@@ -40,15 +38,17 @@ public class Main {
         home.add(isiNama);
 
         //Warn kl bukan angka
-        JLabel warn3 = new JLabel("Isi dengan angka!");
+        JLabel warn3 = new JLabel("* Isi dengan angka!");
         warn3.setForeground(Color.red);
         warn3.setBounds(330, 120, 200, 25);
         warn3.setVisible(false);
+        home.add(warn3);
 
-        JLabel warn4 = new JLabel("Isi dengan angka!");
+        JLabel warn4 = new JLabel("* Isi dengan angka!");
         warn4.setForeground(Color.red);
         warn4.setBounds(330, 180, 200, 25);
         warn4.setVisible(false);
+        home.add(warn4);
 
         //Textfield NIK penumpang
         JLabel nik =  new JLabel();
@@ -66,21 +66,12 @@ public class Main {
 
         final int[] nik1 = {0};
 
-//        try{
-//            for(int i = 0; i < alphabet.length; i++){
-//                if(isiNik.getText().equalsIgnoreCase(String.valueOf(alphabet[i]))){
-//                    warn3.setVisible(true);
-//                }
-//            }
-//        }
-
         //Textfield No Handphone
         JLabel noHP =  new JLabel();
         noHP.setText("No HP Penumpang");
         noHP.setFont(new Font("Tahoma", Font.BOLD, 17));
         noHP.setForeground(Color.white);
         noHP.setBounds(20, 180, 300, 25);
-//        p.setNoHP(Integer.parseInt(noHP.getText()));
         home.add(noHP);
 
         JTextField isiNoHP = new JTextField();
@@ -89,7 +80,7 @@ public class Main {
         isiNoHP.setBounds(20, 210, 300, 25);
         home.add(isiNoHP);
 
-        final int[] no = {0};
+        int[] no = {0};
 
         //Dropdown titik awal
         JLabel awal =  new JLabel();
@@ -99,15 +90,13 @@ public class Main {
         awal.setBounds(425, 60, 300, 25);
         home.add(awal);
 
-        final String titik[] = {"", ""};
+        String titik[] = {"", ""};
 
         JComboBox<String> tAwal = new JComboBox<>(new String[]{"Wilangan", "Ngawi", "Gendingan", "Solo", "Kartosuro", "Jogja", "Magelang"});
         tAwal.setFont(new Font("Tahoma", Font.PLAIN, 15));
         tAwal.setBounds(425, 90, 300, 25);
         tAwal.setBackground(Color.white);
         titik[0] = tAwal.getSelectedItem().toString();
-
-//        p.setTAwal(tAwal.getSelectedItem().toString());
         home.add(tAwal);
 
         //Dropdown titik akhir
@@ -123,7 +112,6 @@ public class Main {
         tAkhir.setBounds(425, 150, 300, 25);
         tAkhir.setBackground(Color.white);
         titik[1] = tAkhir.getSelectedItem().toString();
-//        p.setTAkhir(tAkhir.getSelectedItem().toString());
         home.add(tAkhir);
 
         //Harga
@@ -149,7 +137,7 @@ public class Main {
         warning.setFont(new Font("Tahoma", Font.BOLD, 12));
         warning.setForeground(Color.red);
         warning.setBounds(400, 240, 375, 25);
-        final boolean[] t = {false};
+        boolean[] t = {false};
         home.add(warning);
 
         ActionListener cekRute = new ActionListener() {
@@ -160,7 +148,7 @@ public class Main {
                 String c = p.checkRoute(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString());
                 warning.setText(c);
                 warning.setVisible(true);
-                
+
                 if(c.equals(" ")){
                     t[0] = true;
                 } else {
@@ -172,7 +160,7 @@ public class Main {
         tAwal.addActionListener(cekRute);
         tAkhir.addActionListener(cekRute);
 
-        final int[] price = {0};
+        int[] price = {0};
 
         ActionListener updateHarga = new ActionListener() {
             @Override
@@ -194,13 +182,18 @@ public class Main {
         home.add(layout);
 
         //Warning belom diisi
-        JLabel[] warn = new JLabel[3];
+        JLabel[] warn = new JLabel[5];
 
         for(int i=0;i<warn.length;i++) {
             warn[i] = new JLabel();
             warn[i].setFont(new Font("Tahoma", Font.BOLD, 12));
             warn[i].setForeground(Color.red);
-            warn[i].setText("* Isi ini terlebih dahulu");
+            if(i<3) {
+                warn[i].setText("* Isi ini terlebih dahulu");
+            }
+            else{
+                warn[i].setText("* Isi dengan angka");
+            }
             home.add(warn[i]);
             warn[i].setVisible(false);
         }
@@ -208,40 +201,85 @@ public class Main {
         warn[0].setBounds(180, 60, 200, 25);
         warn[1].setBounds(180, 120, 200, 25);
         warn[2].setBounds(180, 180, 200, 25);
+        warn[3].setBounds(180, 120, 200, 25);
+        warn[4].setBounds(180, 180, 200, 25);
+
+//        boolean[] flag = {true};
 
         home.setVisible(true);
 
         // Buka layout page
         layout.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                if(isiNama.getText()!=null){
-                    warn[0].setVisible(false);
-                }if(isiNoHP.getText()!=null){
-                    warn[1].setVisible(false);
-                }if(isiNik.getText()!=null){
-                    warn[2].setVisible(false);
-                }if(isiNama.getText().isEmpty()){
+            public void actionPerformed(ActionEvent e) {
+                boolean[] b = {false, false};
+
+                for (String s : alphabet) {
+                    if (!(isiNik.getText().toUpperCase().contains(s))) {
+                        b[0] = false;
+                        break;
+                    }
+                }
+
+                for (String s : alphabet) {
+                    if (!(isiNoHP.getText().toUpperCase().contains(s))) {
+                        b[1] = false;
+                        break;
+                    }
+                }
+
+                warn3.setVisible(b[0]);
+                warn4.setVisible(b[1]);
+
+                if (isiNama.getText().isEmpty()) {
                     warn[0].setVisible(true);
-                }if(isiNik.getText().isEmpty()){
+                }
+                else{
+                    warn[0].setVisible(false);
+                }
+                if (isiNik.getText().isEmpty()) {
                     warn[1].setVisible(true);
-                }if(isiNoHP.getText().isEmpty()){
+                }
+                else{
+                    warn[1].setVisible(false);
+
+                    for (String s : alphabet) {
+                        if (isiNik.getText().toUpperCase().contains(s)) {
+                            b[0] = true;
+                            break;
+                        }
+                        if (!(isiNik.getText().toUpperCase().contains(s))) {
+                            b[0] = false;
+                            break;
+                        }
+                    }
+
+                    warn[3].setVisible(b[0]);
+                }
+                if (isiNoHP.getText().isEmpty()) {
                     warn[2].setVisible(true);
                 }
-
-
-                if(!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
-                    if(t[0]) {
-//                        counter++;
-//                        new ConfirmData(isiNama.getText());
-                        new Bis(isiNama.getText(), nik1[0], no[0], titik[0], titik[1], price[0]);
-                        home.setVisible(false);
+                else{
+                    warn[2].setVisible(false);
+                    for (String s : alphabet) {
+                        if (isiNoHP.getText().toUpperCase().contains(s)) {
+                            b[1] = true;
+                            break;
+                        }
                     }
-//                    if(t[1]) {
-//                        new ConfirmData(p.getNama());
-//                    }
+                    warn[4].setVisible(b[1]);
+
                 }
+
+                if (!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
+                    if (t[0] && !b[0] && !b[1]) {
+                                new Bis(isiNama.getText(), nik1[0], no[0], titik[0], titik[1], price[0]);
+                              //home.setVisible(false);
+//                            }
+                        }
+                    }
             }
         });
-        
     }
 }
+
+
