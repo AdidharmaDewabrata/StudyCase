@@ -1,28 +1,45 @@
 public class Pelanggan {
-    private String nama, tAwal, tAkhir, nik, noHP,noKursi;
-    private int harga, index, index2;
+    private String nama, tAwal, tAkhir, noKursi, kode;
+    private int harga, index, index2, jmlTiket, nik, noHP;
 
     public String[] list = new String[]{"WILANGAN", "NGAWI", "GENDINGAN", "SOLO", "KARTOSURO", "JOGJA", "MAGELANG"};
 
     public Pelanggan() {}
 
-    public Pelanggan(String nama, String tAwal, String tAkhir, String nik, String noHP, String noKursi, int harga) {
-        this.nama = nama;       this.nik = nik;         this.harga = harga;
-        this.tAwal = tAwal;     this.noHP = noHP;       this.noKursi = noKursi;
-        this.tAkhir = tAkhir;
+    public Pelanggan(String nama, String tAwal, String tAkhir, int nik, int noHP, String noKursi, int harga, int jmlTiket, String kode) {
+        this.nama = nama;       this.nik = nik;             this.harga = harga;
+        this.tAwal = tAwal;     this.noHP = noHP;           this.noKursi = noKursi;
+        this.tAkhir = tAkhir;   this.jmlTiket = jmlTiket;   this.kode = kode;
     }
 
+    public String getNama() {return nama;}
+    public void setNama(String nama) {this.nama = nama;}
+    public String getTAwal() {return tAwal;}
+    public void setTAwal(String tAwal) { this.tAwal = tAwal;}
+    public String getTAkhir() {return tAkhir;}
+    public void setTAkhir(String tAkhir) { this.tAkhir = tAkhir;}
+    public int getNik() {return nik;}
+    public void setNik(int nik) { this.nik = nik;}
+    public int getNoHP() {return noHP;}
+    public void setNoHP(int noHP) {this.noHP = noHP;}
+    public String getNoKursi() {return noKursi;}
+    public void setNoKursi(String noKursi) {this.noKursi = noKursi;}
+    public void setHarga(int harga) {this.harga = harga;}
+    public int getHarga() {return harga;}
+    public void setJmlTiket(){this.jmlTiket = jmlTiket;}
+    public int getJmlTiket() {return jmlTiket;}
+    public String getKode() {return kode;}
+    public void setKode(String kode) {this.kode = kode;}
 
-
-    public int getHarga(String tAwal, String tAkhir) {
+    public int getHarga(String tAwal, String tAkhir){
         int[][] hargabis = {
-                {0, 35, 45, 55, 60, 70, 80}, //Wilangan
-                {0, 0,  25, 30, 40, 45, 60}, //Ngawi
-                {0, 0,  0,  25, 35, 40, 55}, //Gendingan
-                {0, 0,  0,  0,  15, 15, 30}, //Solo
-                {0, 0,  0,  0,  0,  15, 30}, //Kartosuro
-                {0, 0,  0,  0,  0,  0,  15}, //Jogja
-                {0, 0,  0,  0,  0,  0,  0 }  //Magelang
+                {0, 35000, 45000, 55000, 60000, 70000, 80000}, //Wilangan
+                {0, 0,     25000, 30000, 40000, 45000, 60000}, //Ngawi
+                {0, 0,     0,     25000, 35000, 40000, 55000}, //Gendingan
+                {0, 0,     0,     0,     15000, 15000, 30000}, //Solo
+                {0, 0,     0,     0,     0,     15000, 30000}, //Kartosuro
+                {0, 0,     0,     0,     0,     0,     15000}, //Jogja
+                {0, 0,     0,     0,     0,     0,     0    }  //Magelang
         };
 
         int index = -1;
@@ -82,10 +99,7 @@ public class Pelanggan {
         return s;
     }
 
-
-
-
-    public String gettAwal(){
-        return tAwal;
+    public Object[] toRow(){
+        return new Object[]{Main.counter, nik, noHP, tAwal, tAkhir, jmlTiket, harga, kode};
     }
 }

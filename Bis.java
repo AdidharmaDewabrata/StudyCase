@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Bis extends Main{
-    public Bis() {
+    public Bis(String nama, int nik, int noHP, String tAwal, String tAkhir, int harga) {
         //frame layout
         JFrame frame = new JFrame();
         frame.setSize(600, 800);
@@ -23,7 +23,7 @@ public class Bis extends Main{
         scrollPane.setBounds(0, 0, 600, 800); // Ukuran full frame
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-// Tambahkan scrollPane ke frame
+        // Tambahkan scrollPane ke frame
         frame.add(scrollPane);
         frame.setVisible(false);
 
@@ -56,6 +56,7 @@ public class Bis extends Main{
                 driver.setText("Driver");
                 driver.setBounds(435, 60, 100, 40);
                 kursiPanel.add(driver);
+
 
             //Seat A
             JButton[] A = new JButton[18];
@@ -108,22 +109,16 @@ public class Bis extends Main{
                 kursiPanel.add(B[i]);
             }
 
-            //Toilet
-            JButton toilet = new JButton();
-                toilet.setText("Toilet");
-                toilet.setBounds(10, 620, 180, 40);
-                kursiPanel.add(toilet);
+        //Toilet
+        JButton toilet = new JButton();
+        toilet.setText("Toilet");
+        toilet.setBounds(10, 620, 180, 40);
+        kursiPanel.add(toilet);
 
-            //Selanjutnya
-            JButton next = new JButton();
-                next.setText("Selanjutnya");
-                next.setBounds(370, 700, 180, 40);
-                kursiPanel.add(next);
-
-            // ganti warna if clicked
+        // ganti warna if clicked
         for(int i = 0; i<B.length; i++){
-                int finalI = i;
-                B[i].addActionListener(new ActionListener() {
+            int finalI = i;
+            B[i].addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if(B[finalI].getBackground() == Color.yellow){
                             B[finalI].setBackground(Color.green);
@@ -149,6 +144,22 @@ public class Bis extends Main{
                     });
                 }
             }
+
+        //Selanjutnya
+        JButton next = new JButton();
+        next.setText("Selanjutnya");
+        next.setBounds(370, 700, 180, 40);
+        kursiPanel.add(next);
+
         frame.setVisible(true);
+
+        next.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Main.counter++;
+                new ConfirmData(Main.counter, nama, nik, noHP, tAwal, tAkhir, harga);
+                frame.setVisible(false);
+            }
+        });
+
         }
     }

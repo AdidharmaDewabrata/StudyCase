@@ -6,6 +6,8 @@ import java.awt.event.*;
 import java.util.Objects;
 
 public class Main {
+    static int counter = 0;
+    static Character[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     public static void main(String[] args) {
         Pelanggan p = new Pelanggan();
         //frame homepage
@@ -34,7 +36,19 @@ public class Main {
         isiNama.setFont(new Font("Tahoma", Font.PLAIN, 15));
         isiNama.setEditable(true);
         isiNama.setBounds(20, 90, 300, 25);
+        p.setNama(isiNama.getText());
         home.add(isiNama);
+
+        //Warn kl bukan angka
+        JLabel warn3 = new JLabel("Isi dengan angka!");
+        warn3.setForeground(Color.red);
+        warn3.setBounds(330, 120, 200, 25);
+        warn3.setVisible(false);
+
+        JLabel warn4 = new JLabel("Isi dengan angka!");
+        warn4.setForeground(Color.red);
+        warn4.setBounds(330, 180, 200, 25);
+        warn4.setVisible(false);
 
         //Textfield NIK penumpang
         JLabel nik =  new JLabel();
@@ -50,12 +64,23 @@ public class Main {
         isiNik.setBounds(20, 150, 300, 25);
         home.add(isiNik);
 
+        final int[] nik1 = {0};
+
+        try{
+            for(int i = 0; i < alphabet.length; i++){
+                if(isiNik.getText().equalsIgnoreCase(String.valueOf(alphabet[i]))){
+                    warn3.setVisible(true);
+                }
+            }
+        }
+
         //Textfield No Handphone
         JLabel noHP =  new JLabel();
         noHP.setText("No HP Penumpang");
         noHP.setFont(new Font("Tahoma", Font.BOLD, 17));
         noHP.setForeground(Color.white);
         noHP.setBounds(20, 180, 300, 25);
+//        p.setNoHP(Integer.parseInt(noHP.getText()));
         home.add(noHP);
 
         JTextField isiNoHP = new JTextField();
@@ -63,6 +88,8 @@ public class Main {
         isiNoHP.setEditable(true);
         isiNoHP.setBounds(20, 210, 300, 25);
         home.add(isiNoHP);
+
+        final int[] no = {0};
 
         //Dropdown titik awal
         JLabel awal =  new JLabel();
@@ -72,10 +99,15 @@ public class Main {
         awal.setBounds(425, 60, 300, 25);
         home.add(awal);
 
+        final String titik[] = {"", ""};
+
         JComboBox<String> tAwal = new JComboBox<>(new String[]{"Wilangan", "Ngawi", "Gendingan", "Solo", "Kartosuro", "Jogja", "Magelang"});
         tAwal.setFont(new Font("Tahoma", Font.PLAIN, 15));
         tAwal.setBounds(425, 90, 300, 25);
         tAwal.setBackground(Color.white);
+        titik[0] = tAwal.getSelectedItem().toString();
+
+//        p.setTAwal(tAwal.getSelectedItem().toString());
         home.add(tAwal);
 
         //Dropdown titik akhir
@@ -90,6 +122,8 @@ public class Main {
         tAkhir.setFont(new Font("Tahoma", Font.PLAIN, 15));
         tAkhir.setBounds(425, 150, 300, 25);
         tAkhir.setBackground(Color.white);
+        titik[1] = tAkhir.getSelectedItem().toString();
+//        p.setTAkhir(tAkhir.getSelectedItem().toString());
         home.add(tAkhir);
 
         //Harga
@@ -106,9 +140,10 @@ public class Main {
         display.setText("Rp. "+p.getHarga(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString())+",000");
         display.setEditable(false);
         display.setBounds(425, 210, 300, 25);
+        p.setHarga(p.getHarga(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString()));
         home.add(display);
 
-        //cekrute
+        //cekRute
         JLabel warning = new JLabel();
         warning.setVisible(false);
         warning.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -137,28 +172,20 @@ public class Main {
         tAwal.addActionListener(cekRute);
         tAkhir.addActionListener(cekRute);
 
+        final int[] price = {0};
+
         ActionListener updateHarga = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String fromCity = tAwal.getSelectedItem().toString();
                 String toCity = tAkhir.getSelectedItem().toString();
-                int currentPrice = p.getHarga(fromCity, toCity);
-                display.setText("Rp. " + currentPrice + ",000");
+                price[0] = p.getHarga(fromCity, toCity);
+                display.setText("Rp. " + price[0]);
             }
         };
 
         tAwal.addActionListener(updateHarga);
         tAkhir.addActionListener(updateHarga);
-
-
-
-
-
-
-
-
-
-
 
         // button lihat layout bis
         JButton layout = new JButton();
@@ -182,6 +209,7 @@ public class Main {
         warn[1].setBounds(180, 120, 200, 25);
         warn[2].setBounds(180, 180, 200, 25);
 
+        home.setVisible(true);
 
         // Buka layout page
         layout.addActionListener(new ActionListener(){
@@ -203,13 +231,17 @@ public class Main {
 
                 if(!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
                     if(t[0]) {
-                        new Bis();
+//                        counter++;
+//                        new ConfirmData(isiNama.getText());
+                        new Bis(isiNama.getText(), nik1[0], no[0], titik[0], titik[1], price[0]);
+                        home.setVisible(false);
                     }
+//                    if(t[1]) {
+//                        new ConfirmData(p.getNama());
+//                    }
                 }
             }
         });
-        
-        home.setVisible(true);
         
     }
 }
