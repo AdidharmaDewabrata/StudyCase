@@ -1,10 +1,12 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Main {
     static int counter = 0;
+    static int[] jumlah = {0};
     static String[] alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "u", "V", "W", "X", "Y", "Z"};
     public static void main(String[] args) {
         Pelanggan p = new Pelanggan();
@@ -116,10 +118,10 @@ public class Main {
 
         //Harga
         JLabel harga =  new JLabel();
-        harga.setText("Harga Tiket");
+        harga.setText("Harga / Tiket");
         harga.setFont(new Font("Tahoma", Font.BOLD, 17));
         harga.setForeground(Color.white);
-        harga.setBounds(425, 180, 300, 25);
+        harga.setBounds(315, 250, 300, 25);
         home.add(harga);
 
         //Text Harga
@@ -127,7 +129,7 @@ public class Main {
         display.setFont(new Font("Tahoma", Font.PLAIN, 15));
         display.setText("Rp. "+p.getHarga(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString())+",000");
         display.setEditable(false);
-        display.setBounds(425, 210, 300, 25);
+        display.setBounds(315, 280, 115, 25);
         p.setHarga(p.getHarga(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString()));
         home.add(display);
 
@@ -139,6 +141,64 @@ public class Main {
         warning.setBounds(400, 240, 375, 25);
         boolean[] t = {false};
         home.add(warning);
+
+        //Label jml tiket
+        JLabel jml =  new JLabel("Jumlah Tiket");
+        jml.setForeground(Color.white);
+        jml.setBounds(425,180,300,25);
+        jml.setFont(new Font("Tahoma", Font.BOLD, 17));
+        home.add(jml);
+
+        String jumlah1 = String.valueOf(jumlah[0]);
+
+        //Panel jml tiket
+        JLabel showJumlah = new JLabel(String.valueOf(jumlah[0]));
+        showJumlah.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        showJumlah.setForeground(Color.black);
+        showJumlah.setBounds(425, 210, 100, 25);
+        showJumlah.setVisible(true);
+        home.add(showJumlah);
+
+        JPanel jmlTiket = new JPanel();
+        jmlTiket.setLayout(null);
+        jmlTiket.setBounds(425, 210, 200, 25);
+        home.add(jmlTiket);
+
+
+        //tombol buat nambah/nurunin jumlah tiket
+        JButton tambah = new JButton("^");
+        tambah.setFont(new Font("Tahoma", Font.BOLD, 17));
+        tambah.setForeground(Color.BLACK);
+        tambah.setBackground(Color.white);
+        tambah.setBorder(BorderFactory.createLineBorder(Color.black));
+        tambah.setBounds(625,209,50,27);
+        home.add(tambah);
+
+        tambah.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                jumlah[0]++;
+                showJumlah.setText(String.valueOf(jumlah[0]));
+            }
+        });
+
+        JButton turun = new JButton("v");
+        turun.setFont(new Font("Tahoma", Font.BOLD, 17));
+        turun.setForeground(Color.BLACK);
+        turun.setBackground(Color.white);
+        turun.setBorder(BorderFactory.createLineBorder(Color.black));
+        turun.setBounds(675,209,50,27);
+        home.add(turun);
+        turun.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(jumlah[0]==0){
+                    showJumlah.setText(String.valueOf(jumlah[0]));
+                }
+                else {
+                    jumlah[0]--;
+                    showJumlah.setText(String.valueOf(jumlah[0]));
+                }
+            }
+        });
 
         ActionListener cekRute = new ActionListener() {
             @Override
@@ -181,7 +241,7 @@ public class Main {
         layout.setBounds(600, 390, 150, 40);
         home.add(layout);
 
-        //Warning belom diisi
+        //Label warning belom diisi
         JLabel[] warn = new JLabel[5];
 
         for(int i=0;i<warn.length;i++) {
@@ -204,8 +264,6 @@ public class Main {
         warn[3].setBounds(180, 120, 200, 25);
         warn[4].setBounds(180, 180, 200, 25);
 
-//        boolean[] flag = {true};
-
         home.setVisible(true);
 
         // Buka layout page
@@ -213,6 +271,7 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 boolean[] b = {false, false};
 
+                //cek apkah isi nik mengandung huruf alphabet
                 for (String s : alphabet) {
                     if (!(isiNik.getText().toUpperCase().contains(s))) {
                         b[0] = false;
@@ -220,6 +279,7 @@ public class Main {
                     }
                 }
 
+                //cek apkah isi nik sudah tidak mengandung huruf alphabet
                 for (String s : alphabet) {
                     if (!(isiNoHP.getText().toUpperCase().contains(s))) {
                         b[1] = false;
@@ -227,6 +287,7 @@ public class Main {
                     }
                 }
 
+                //munculin si warning letter
                 warn3.setVisible(b[0]);
                 warn4.setVisible(b[1]);
 

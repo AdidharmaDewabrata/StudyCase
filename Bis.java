@@ -160,6 +160,5 @@ public class Bis extends Main{
                 frame.setVisible(false);
             }
         });
-
-        }
     }
+}
