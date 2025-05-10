@@ -6,30 +6,9 @@ public class Pelanggan {
 
     public Pelanggan() {}
 
-    public Pelanggan(String nama, String tAwal, String tAkhir, int nik, int noHP, String noKursi, int harga, int jmlTiket, String kode) {
-        this.nama = nama;       this.nik = nik;             this.harga = harga;
-        this.tAwal = tAwal;     this.noHP = noHP;           this.noKursi = noKursi;
-        this.tAkhir = tAkhir;   this.jmlTiket = jmlTiket;   this.kode = kode;
-    }
-
-    public String getNama() {return nama;}
     public void setNama(String nama) {this.nama = nama;}
-    public String getTAwal() {return tAwal;}
-    public void setTAwal(String tAwal) { this.tAwal = tAwal;}
-    public String getTAkhir() {return tAkhir;}
-    public void setTAkhir(String tAkhir) { this.tAkhir = tAkhir;}
-    public int getNik() {return nik;}
-    public void setNik(int nik) { this.nik = nik;}
-    public int getNoHP() {return noHP;}
-    public void setNoHP(int noHP) {this.noHP = noHP;}
-    public String getNoKursi() {return noKursi;}
-    public void setNoKursi(String noKursi) {this.noKursi = noKursi;}
     public void setHarga(int harga) {this.harga = harga;}
-    public int getHarga() {return harga;}
-    public void setJmlTiket(){this.jmlTiket = jmlTiket;}
-    public int getJmlTiket() {return jmlTiket;}
-    public String getKode() {return kode;}
-    public void setKode(String kode) {this.kode = kode;}
+
 
     public int getHarga(String tAwal, String tAkhir){
         int[][] hargabis = {

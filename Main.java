@@ -1,12 +1,14 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Main {
     static int counter = 0;
     static int[] jumlah = {0};
+    static Long[] nik1 = {0L};
+    static Long[] no = {0L};
+    static String[] titik  = {"tes", "toto"};
     static String[] alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "u", "V", "W", "X", "Y", "Z"};
     public static void main(String[] args) {
         Pelanggan p = new Pelanggan();
@@ -66,8 +68,6 @@ public class Main {
         isiNik.setBounds(20, 150, 300, 25);
         home.add(isiNik);
 
-        final int[] nik1 = {0};
-
         //Textfield No Handphone
         JLabel noHP =  new JLabel();
         noHP.setText("No HP Penumpang");
@@ -82,8 +82,6 @@ public class Main {
         isiNoHP.setBounds(20, 210, 300, 25);
         home.add(isiNoHP);
 
-        int[] no = {0};
-
         //Dropdown titik awal
         JLabel awal =  new JLabel();
         awal.setText("Titik Awal");
@@ -92,13 +90,10 @@ public class Main {
         awal.setBounds(425, 60, 300, 25);
         home.add(awal);
 
-        String titik[] = {"", ""};
-
         JComboBox<String> tAwal = new JComboBox<>(new String[]{"Wilangan", "Ngawi", "Gendingan", "Solo", "Kartosuro", "Jogja", "Magelang"});
         tAwal.setFont(new Font("Tahoma", Font.PLAIN, 15));
         tAwal.setBounds(425, 90, 300, 25);
         tAwal.setBackground(Color.white);
-        titik[0] = tAwal.getSelectedItem().toString();
         home.add(tAwal);
 
         //Dropdown titik akhir
@@ -113,7 +108,7 @@ public class Main {
         tAkhir.setFont(new Font("Tahoma", Font.PLAIN, 15));
         tAkhir.setBounds(425, 150, 300, 25);
         tAkhir.setBackground(Color.white);
-        titik[1] = tAkhir.getSelectedItem().toString();
+        titik[1] = Objects.requireNonNull(tAkhir.getSelectedItem()).toString();
         home.add(tAkhir);
 
         //Harga
@@ -152,7 +147,7 @@ public class Main {
         String jumlah1 = String.valueOf(jumlah[0]);
 
         //Panel jml tiket
-        JLabel showJumlah = new JLabel(String.valueOf(jumlah[0]));
+        JLabel showJumlah = new JLabel (String.valueOf(jumlah[0]));
         showJumlah.setFont(new Font("Tahoma", Font.PLAIN, 15));
         showJumlah.setForeground(Color.black);
         showJumlah.setBounds(425, 210, 100, 25);
@@ -203,6 +198,8 @@ public class Main {
         ActionListener cekRute = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                titik[0] = (String) tAwal.getSelectedItem();
+                titik[1] = (String) tAkhir.getSelectedItem();
                 String fromCity = tAwal.getSelectedItem().toString();
                 String toCity = tAkhir.getSelectedItem().toString();
                 String c = p.checkRoute(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString());
@@ -333,7 +330,9 @@ public class Main {
 
                 if (!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
                     if (t[0] && !b[0] && !b[1]) {
-                        new Bis(isiNama.getText(), nik1[0], no[0], titik[0], titik[1], price[0]);
+                        nik1[0] = Long.parseLong(isiNik.getText());
+                        no[0] = Long.parseLong(isiNoHP.getText());
+                        new Bis(isiNama.getText(), nik1[0], no[0], titik[0], titik[1], price[0], jumlah[0]);
                         //home.setVisible(false);
                     }
                 }

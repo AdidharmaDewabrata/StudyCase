@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Bis extends Main{
-    public Bis(String nama, int nik, int noHP, String tAwal, String tAkhir, int harga) {
+    public Bis(String nama, long nik, long noHP, String tAwal, String tAkhir, int harga, int jumlah) {
         //frame layout
         JFrame frame = new JFrame();
         frame.setSize(600, 800);
@@ -156,7 +156,7 @@ public class Bis extends Main{
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Main.counter++;
-                new ConfirmData(Main.counter, nama, nik, noHP, tAwal, tAkhir, harga);
+                new ConfirmData(Main.counter, nama, nik, noHP, tAwal, tAkhir, harga, jumlah);
                 frame.setVisible(false);
             }
         });
