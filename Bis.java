@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Bis extends Main{
+    static int[] counter = {1}; static boolean flag = false;
     public Bis(String nama, long nik, long noHP, String tAwal, String tAkhir, int harga, int jumlah) {
         //frame layout
         JFrame frame = new JFrame();
@@ -115,16 +116,36 @@ public class Bis extends Main{
         toilet.setBounds(10, 620, 180, 40);
         kursiPanel.add(toilet);
 
+        //warning label
+        JLabel warn = new JLabel("Batas jumlah kursi telah dipenuhi");
+        warn.setForeground(Color.red);
+        warn.setBounds(370, 670, 200, 40);
+        warn.setVisible(false);
+        kursiPanel.add(warn);
+
         // ganti warna if clicked
         for(int i = 0; i<B.length; i++){
             int finalI = i;
             B[i].addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if(B[finalI].getBackground() == Color.yellow){
+                            counter[0]--;
                             B[finalI].setBackground(Color.green);
+                            if(counter[0] <= jumlah){
+                                warn.setVisible(false);
+                                flag = false;
+                            }
                         }
                         else {
-                            B[finalI].setBackground(Color.yellow);
+                            System.out.println(counter[0]);
+                            if(counter[0]>jumlah) {
+                                warn.setVisible(true);
+                            } else {
+                                warn.setVisible(false);
+                                flag = false;
+                                counter[0]++;
+                                B[finalI].setBackground(Color.yellow);
+                            }
                         }
                     }
 
@@ -135,10 +156,19 @@ public class Bis extends Main{
                     A[i].addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             if(A[finalI1].getBackground() == Color.yellow){
+                                counter[0]--;
                                 A[finalI1].setBackground(Color.green);
                             }
                             else {
-                                A[finalI1].setBackground(Color.yellow);
+                                counter[0]++;
+                                if(counter[0]>jumlah) {
+                                    warn.setVisible(true);
+                                    flag = true;
+                                } else {
+                                    A[finalI].setBackground(Color.yellow);
+                                    warn.setVisible(false);
+                                    flag = false;
+                                }
                             }
                         }
                     });
@@ -155,9 +185,10 @@ public class Bis extends Main{
 
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Main.counter++;
-                new ConfirmData(Main.counter, nama, nik, noHP, tAwal, tAkhir, harga, jumlah);
-                frame.setVisible(false);
+                if(!(flag)) {
+                    new ConfirmData(nama, nik, noHP, tAwal, tAkhir, harga, jumlah);
+                    frame.setVisible(false);
+                }
             }
         });
     }

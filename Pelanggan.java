@@ -77,8 +77,4 @@ public class Pelanggan {
 
         return s;
     }
-
-    public Object[] toRow(){
-        return new Object[]{Main.counter, nik, noHP, tAwal, tAkhir, jmlTiket, harga, kode};
-    }
 }

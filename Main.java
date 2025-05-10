@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.util.Objects;
 
 public class Main {
-    static int counter = 0;
     static int[] jumlah = {0};
     static Long[] nik1 = {0L};
     static Long[] no = {0L};

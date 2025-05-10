@@ -5,12 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ConfirmData extends Pelanggan {
-    public ConfirmData(int counter, String nama, long nik, long nohp, String tAwal, String tAkhir, int harga, int jumlah ) {
+    static int[] counter = {1};
+    public ConfirmData(String nama, long nik, long nohp, String tAwal, String tAkhir, int harga, int jumlah ) {
+
         // Frame setup
         JFrame frame = new JFrame("Confirm Data");
         frame.setSize(900, 600);
         frame.setLayout(null);
         frame.setBackground(Color.darkGray);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Panel setup
         JPanel panel = new JPanel();
@@ -20,19 +23,17 @@ public class ConfirmData extends Pelanggan {
         panel.setLayout(null);
         frame.add(panel);
 
+        int Tharga = jumlah*harga;
+
         // Column titles
         String[] columns = {"No", "Nama", "NIK Penumpang", "No HP", "Titik Awal", "Titik Akhir", "Jumlah Tiket", "Total Harga", "Kode Booking"};
-        //data
-        String[][] data = {
-                {String.valueOf(counter), nama, String.valueOf(nik), String.valueOf(nohp), tAwal, tAkhir, String.valueOf(jumlah), String.valueOf(harga)}
-        };
         String[][] data1 = {{" ", " ", " ", " ", " ", " ", " ", " ", " "}};
 
         JButton add = new JButton("Tambah Data");
-        add.setBounds(400, 400,175, 30);
+        add.setBounds(490, 150,200, 30);
         add.setBackground(Color.WHITE);
         add.setVisible(true);
-        frame.add(add);
+        panel.add(add);
 
         // Custom table model with overridden isCellEditable
         DefaultTableModel model = new DefaultTableModel(data1, columns) {
@@ -44,8 +45,11 @@ public class ConfirmData extends Pelanggan {
 
         add.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(counter==1){
-                    model.setValueAt(String.valueOf(counter), 0, 0);
+                if(counter[0]==1){
+                    String[][] data = {
+                            {String.valueOf(counter[0]), nama, String.valueOf(nik), String.valueOf(nohp), tAwal, tAkhir, String.valueOf(jumlah), String.valueOf(Tharga)}
+                    };
+                    model.setValueAt(String.valueOf(counter[0]), 0, 0);
                     model.setValueAt(nama, 0, 1);
                     model.setValueAt(String.valueOf(nik), 0, 2);
                     model.setValueAt(String.valueOf(nohp), 0, 3);
@@ -53,8 +57,15 @@ public class ConfirmData extends Pelanggan {
                     model.setValueAt(tAkhir, 0, 5);
                     model.setValueAt(jumlah, 0, 6);
                     model.setValueAt(harga, 0, 7 );
+                    counter[0]++;
                 }
-                else{model.addRow(data);}
+                else{
+                    counter[0]++;
+                    String[][] data = {
+                            {String.valueOf(counter[0]), nama, String.valueOf(nik), String.valueOf(nohp), tAwal, tAkhir, String.valueOf(jumlah), String.valueOf(Tharga)}
+                    };
+                    model.addRow(data);
+                }
             }
         });
 
@@ -101,16 +112,22 @@ public class ConfirmData extends Pelanggan {
 
         JLabel jumlahTiket = new JLabel("Jumlah Tiket:");
         jumlahTiket.setBounds(400, 50, 150, 20);
-        JTextField isiJumlah = new JTextField(jumlah);
-        System.out.println(jumlah);
+        JTextField isiJumlah = new JTextField(String.valueOf(jumlah));
         isiJumlah.setEditable(false);
-        isiJumlah.setBounds(560,50,200,20);
+        isiJumlah.setBounds(490,50,200,20);
+
+        JLabel hargaTiket = new JLabel("Harga Tiket:");
+        hargaTiket.setBounds(400, 80, 150, 20);
+        JTextField isiHarga = new JTextField(String.valueOf(harga));
+        isiHarga.setEditable(false);
+        isiHarga.setBounds(490,80,200,20);
 
         JLabel harga1 = new JLabel("Total Harga:");
-        harga1.setBounds(400, 80, 150, 20);
-        JTextField isiHarga = new JTextField(harga);
-        isiHarga.setEditable(false);
-        isiHarga.setBounds(560,50,200,20);
+        harga1.setBounds(400, 110, 150, 20);
+        JTextField isiHarga1 = new JTextField();
+        isiHarga1.setText(String.valueOf(Tharga));
+        isiHarga1.setEditable(false);
+        isiHarga1.setBounds(490,110,200,20);
 
 
         // Add components to frame
@@ -130,11 +147,9 @@ public class ConfirmData extends Pelanggan {
         panel.add(isiNama);
         panel.add(isiNik);
         panel.add(isiNo);
+        panel.add(isiHarga1);
+        panel.add(hargaTiket);
 
-        // Add the scrollPane containing the table
-
-
-        // Display the frame
         frame.setVisible(true);
     }
 }
