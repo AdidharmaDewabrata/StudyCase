@@ -3,10 +3,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.Arrays;
 
 public class ConfirmData extends Pelanggan {
     static int[] counter = {1};
-    public ConfirmData(String nama, long nik, long nohp, String tAwal, String tAkhir, int harga, int jumlah ) {
+    public ConfirmData(String nama, long nik, long nohp, String tAwal, String tAkhir, int harga, int jumlah, String kursi) {
 
         // Frame setup
         JFrame frame = new JFrame("Confirm Data");
@@ -26,7 +28,7 @@ public class ConfirmData extends Pelanggan {
         int Tharga = jumlah*harga;
 
         // Column titles
-        String[] columns = {"No", "Nama", "NIK Penumpang", "No HP", "Titik Awal", "Titik Akhir", "Jumlah Tiket", "Total Harga", "Kode Booking"};
+        String[] columns = {"No", "Nama", "NIK Penumpang", "No HP", "Titik Awal", "Titik Akhir", "Jumlah Tiket", "Total Harga", "Kursi"};
         String[][] data1 = {{" ", " ", " ", " ", " ", " ", " ", " ", " "}};
 
         JButton add = new JButton("Tambah Data");
@@ -56,7 +58,18 @@ public class ConfirmData extends Pelanggan {
                     model.setValueAt(tAwal, 0, 4);
                     model.setValueAt(tAkhir, 0, 5);
                     model.setValueAt(jumlah, 0, 6);
-                    model.setValueAt(harga, 0, 7 );
+                    model.setValueAt(Tharga, 0, 7 );
+                    model.setValueAt(kursi, 0, 8 );
+
+                    try(var writer = new PrintWriter("data.txt")){
+                        writer.print(counter[0]+",");       writer.print(nama+",");      writer.print(nik+",");        writer.print(nohp+",");
+                        writer.print(tAwal+",");             writer.print(tAkhir+",");     writer.print(jumlah+",");       writer.print(Tharga+",");
+                        writer.print(kursi);
+                        writer.println();
+                    } catch(FileNotFoundException d){
+                        System.err.println(d);
+                    }
+
                     counter[0]++;
                 }
                 else{
@@ -65,6 +78,14 @@ public class ConfirmData extends Pelanggan {
                             {String.valueOf(counter[0]), nama, String.valueOf(nik), String.valueOf(nohp), tAwal, tAkhir, String.valueOf(jumlah), String.valueOf(Tharga)}
                     };
                     model.addRow(data);
+
+                    try(var writer = new PrintWriter("data.txt")){
+                        writer.print(counter[0]+",");       writer.print(nama+",");      writer.print(nik+",");        writer.print(nohp+",");
+                        writer.print(tAwal+",");             writer.print(tAkhir+",");     writer.print(jumlah+",");       writer.print(Tharga+",");
+                        writer.println();
+                    } catch(FileNotFoundException d){
+                        System.err.println(d);
+                    }
                 }
             }
         });
@@ -131,24 +152,15 @@ public class ConfirmData extends Pelanggan {
 
 
         // Add components to frame
-        frame.add(title);
-        panel.add(name);
-        panel.add(nik1);
-        panel.add(no);
-        panel.add(titikAwal);
-        panel.add(titikAkhir);
-        panel.add(jumlahTiket);
-        panel.add(harga1);
-        panel.add(isiTAwal);
-        panel.add(isiTAkhir);
-        panel.add(jumlahTiket);
-        panel.add(isiJumlah);
-        panel.add(isiHarga);
-        panel.add(isiNama);
-        panel.add(isiNik);
-        panel.add(isiNo);
-        panel.add(isiHarga1);
-        panel.add(hargaTiket);
+        frame.add(title);               panel.add(titikAwal);
+        panel.add(name);                panel.add(titikAkhir);
+        panel.add(nik1);                panel.add(jumlahTiket);
+        panel.add(no);                  panel.add(harga1);
+        panel.add(isiTAwal);            panel.add(isiTAkhir);
+        panel.add(jumlahTiket);         panel.add(isiJumlah);
+        panel.add(isiHarga);            panel.add(isiNama);
+        panel.add(isiNik);              panel.add(isiNo);
+        panel.add(isiHarga1);           panel.add(hargaTiket);
 
         frame.setVisible(true);
     }

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 public class Bis extends Main{
     static int[] counter = {1}; static boolean flag = false;
+    static String[] kursi = new String[jumlah[0]]; static String s = "";
     public Bis(String nama, long nik, long noHP, String tAwal, String tAkhir, int harga, int jumlah) {
         //frame layout
         JFrame frame = new JFrame();
@@ -143,6 +144,8 @@ public class Bis extends Main{
                             } else {
                                 warn.setVisible(false);
                                 flag = false;
+                                kursi[counter[0]-1] = B[finalI].getText();
+                                s+= kursi[counter[0]-1];
                                 counter[0]++;
                                 B[finalI].setBackground(Color.yellow);
                             }
@@ -155,25 +158,31 @@ public class Bis extends Main{
                     int finalI1 = i;
                     A[i].addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            if(A[finalI1].getBackground() == Color.yellow){
+                            if(A[finalI].getBackground() == Color.yellow){
                                 counter[0]--;
-                                A[finalI1].setBackground(Color.green);
-                            }
-                            else {
-                                counter[0]++;
-                                if(counter[0]>jumlah) {
-                                    warn.setVisible(true);
-                                    flag = true;
-                                } else {
-                                    A[finalI].setBackground(Color.yellow);
+                                A[finalI].setBackground(Color.green);
+                                if(counter[0] <= jumlah){
                                     warn.setVisible(false);
                                     flag = false;
                                 }
                             }
+                            else {
+                                System.out.println(counter[0]);
+                                if(counter[0]>jumlah) {
+                                    warn.setVisible(true);
+                                } else {
+                                    warn.setVisible(false);
+                                    flag = false;
+                                    kursi[counter[0]-1] = A[finalI].getText();
+                                    s+= kursi[counter[0]-1];
+                                    counter[0]++;
+                                    A[finalI].setBackground(Color.yellow);
+                                }
+                            }
                         }
-                    });
+                        });
+                    }
                 }
-            }
 
         //Selanjutnya
         JButton next = new JButton();
@@ -186,7 +195,7 @@ public class Bis extends Main{
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(!(flag)) {
-                    new ConfirmData(nama, nik, noHP, tAwal, tAkhir, harga, jumlah);
+                    new ConfirmData(nama, nik, noHP, tAwal, tAkhir, harga, jumlah, s);
                     frame.setVisible(false);
                 }
             }
