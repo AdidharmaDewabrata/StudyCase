@@ -3,6 +3,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 public class Bis extends Main{
     static int[] counter = {1}; static boolean flag = false;
@@ -138,14 +139,13 @@ public class Bis extends Main{
                             }
                         }
                         else {
-                            System.out.println(counter[0]);
                             if(counter[0]>jumlah) {
                                 warn.setVisible(true);
                             } else {
                                 warn.setVisible(false);
                                 flag = false;
                                 kursi[counter[0]-1] = B[finalI].getText();
-                                s+= kursi[counter[0]-1];
+                                s+= kursi[counter[0]-1]+"-";
                                 counter[0]++;
                                 B[finalI].setBackground(Color.yellow);
                             }
@@ -154,7 +154,7 @@ public class Bis extends Main{
 
                 });
 
-                if(i<17) {
+                if(i<18) {
                     int finalI1 = i;
                     A[i].addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
@@ -167,14 +167,13 @@ public class Bis extends Main{
                                 }
                             }
                             else {
-                                System.out.println(counter[0]);
                                 if(counter[0]>jumlah) {
                                     warn.setVisible(true);
                                 } else {
                                     warn.setVisible(false);
                                     flag = false;
                                     kursi[counter[0]-1] = A[finalI].getText();
-                                    s+= kursi[counter[0]-1];
+                                    s+= kursi[counter[0]-1]+"-";
                                     counter[0]++;
                                     A[finalI].setBackground(Color.yellow);
                                 }
@@ -195,8 +194,10 @@ public class Bis extends Main{
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(!(flag)) {
-                    new ConfirmData(nama, nik, noHP, tAwal, tAkhir, harga, jumlah, s);
-                    frame.setVisible(false);
+                        char space = ' ';
+                        String u = s.substring(0,s.length()-1)+space;
+                        new ConfirmData(nama, nik, noHP, tAwal, tAkhir, harga, jumlah, u);
+                        frame.setVisible(false);
                 }
             }
         });

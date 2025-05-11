@@ -4,18 +4,50 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.util.Arrays;
+import java.util.Scanner;
 
 public class ConfirmData extends Pelanggan {
-    static int[] counter = {1};
+    static int[] counter = {0}; static String[][] dataa = new String[10][9]; static boolean flag=false; static int index1=0, index2=0;
     public ConfirmData(String nama, long nik, long nohp, String tAwal, String tAkhir, int harga, int jumlah, String kursi) {
+        Scanner sc;
+        //check if data.txt null ato ga
+        File file = new File("data.txt");
+        if(file.length()==0){
+            flag=true;
+        }
+        else {
+            try (BufferedReader reader = new BufferedReader(new FileReader("data.txt"))) {
+                while(reader.readLine() !=null){
+                    counter[0]++;
+                }
+            } catch (IOException d) {
+                System.err.println(d);
+            }
+
+            try (BufferedReader reader = new BufferedReader(new FileReader("data.txt"))) {
+                int o = 0;
+                String s;
+                while ((s = reader.readLine()) != null && o < dataa.length) {
+                    sc = new Scanner(s);
+                    int u = 0;
+                    while (sc.hasNext() && u < 9) {
+                        dataa[o][u] = sc.next();
+                        u++;
+                    }
+                    o++;
+                }
+
+//                counter[0] = Integer.parseInt(dataa[index1-1][0]);
+            }catch (IOException d) {
+                System.err.println(d);
+            }
+        }
 
         // Frame setup
         JFrame frame = new JFrame("Confirm Data");
         frame.setSize(900, 600);
         frame.setLayout(null);
         frame.setBackground(Color.darkGray);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Panel setup
         JPanel panel = new JPanel();
@@ -29,7 +61,13 @@ public class ConfirmData extends Pelanggan {
 
         // Column titles
         String[] columns = {"No", "Nama", "NIK Penumpang", "No HP", "Titik Awal", "Titik Akhir", "Jumlah Tiket", "Total Harga", "Kursi"};
-        String[][] data1 = {{" ", " ", " ", " ", " ", " ", " ", " ", " "}};
+        String[][] data1 = new String[counter[0]][9];
+
+        for(int i=0; i<counter[0]; i++){
+            for(int j=0; j<9; j++){
+                data1[i][j] = " ";
+            }
+        }
 
         JButton add = new JButton("Tambah Data");
         add.setBounds(490, 150,200, 30);
@@ -44,13 +82,17 @@ public class ConfirmData extends Pelanggan {
                 return false; // No cell is editable
             }
         };
+        System.out.println("ini jumlah counter sebelum munculin data di file: "+counter[0]);
+        for (int i = 0; i < counter[0]; i++) {
+            for (int j = 0; j < 9; j++) {
+                model.setValueAt(dataa[i][j], i, j);
+            }
+        }
 
         add.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(counter[0]==1){
-                    String[][] data = {
-                            {String.valueOf(counter[0]), nama, String.valueOf(nik), String.valueOf(nohp), tAwal, tAkhir, String.valueOf(jumlah), String.valueOf(Tharga)}
-                    };
+                //action yang bakalan dilakuin klo file data.txt kosong
+                if(flag){
                     model.setValueAt(String.valueOf(counter[0]), 0, 0);
                     model.setValueAt(nama, 0, 1);
                     model.setValueAt(String.valueOf(nik), 0, 2);
@@ -61,29 +103,30 @@ public class ConfirmData extends Pelanggan {
                     model.setValueAt(Tharga, 0, 7 );
                     model.setValueAt(kursi, 0, 8 );
 
-                    try(var writer = new PrintWriter("data.txt")){
-                        writer.print(counter[0]+",");       writer.print(nama+",");      writer.print(nik+",");        writer.print(nohp+",");
-                        writer.print(tAwal+",");             writer.print(tAkhir+",");     writer.print(jumlah+",");       writer.print(Tharga+",");
+                    try(PrintWriter writer = new PrintWriter(new FileWriter("data.txt", true))){
+                        writer.print(counter[0]+" ");       writer.print(nama+" ");      writer.print(nik+" ");        writer.print(nohp+" ");
+                        writer.print(tAwal+" ");             writer.print(tAkhir+" ");     writer.print(jumlah+" ");       writer.print(Tharga+" ");
                         writer.print(kursi);
                         writer.println();
-                    } catch(FileNotFoundException d){
+                    } catch(IOException d){
                         System.err.println(d);
                     }
-
                     counter[0]++;
                 }
                 else{
+                    //nambahin data baru ke dalem file data.txt
                     counter[0]++;
                     String[][] data = {
                             {String.valueOf(counter[0]), nama, String.valueOf(nik), String.valueOf(nohp), tAwal, tAkhir, String.valueOf(jumlah), String.valueOf(Tharga)}
                     };
                     model.addRow(data);
 
-                    try(var writer = new PrintWriter("data.txt")){
-                        writer.print(counter[0]+",");       writer.print(nama+",");      writer.print(nik+",");        writer.print(nohp+",");
-                        writer.print(tAwal+",");             writer.print(tAkhir+",");     writer.print(jumlah+",");       writer.print(Tharga+",");
+                    try(PrintWriter writer = new PrintWriter(new FileWriter("data.txt", true))){
+                        writer.print(counter[0]+" ");       writer.print(nama+" ");      writer.print(nik+" ");        writer.print(nohp+" ");
+                        writer.print(tAwal+" ");             writer.print(tAkhir+" ");     writer.print(jumlah+" ");       writer.print(Tharga+" ");
+                        writer.print(kursi);
                         writer.println();
-                    } catch(FileNotFoundException d){
+                    } catch(IOException d){
                         System.err.println(d);
                     }
                 }

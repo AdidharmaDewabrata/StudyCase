@@ -121,7 +121,7 @@ public class Main {
         //Text Harga
         JTextArea display = new JTextArea();
         display.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        display.setText("Rp. "+p.getHarga(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString())+",000");
+        display.setText("Rp. "+p.getHarga(Objects.requireNonNull(tAwal.getSelectedItem()).toString(), tAkhir.getSelectedItem().toString())+",000");
         display.setEditable(false);
         display.setBounds(315, 280, 115, 25);
         p.setHarga(p.getHarga(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString()));
@@ -142,8 +142,6 @@ public class Main {
         jml.setBounds(425,180,300,25);
         jml.setFont(new Font("Tahoma", Font.BOLD, 17));
         home.add(jml);
-
-        String jumlah1 = String.valueOf(jumlah[0]);
 
         //Panel jml tiket
         JLabel showJumlah = new JLabel (String.valueOf(jumlah[0]));
@@ -168,11 +166,9 @@ public class Main {
         tambah.setBounds(625,209,50,27);
         home.add(tambah);
 
-        tambah.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                jumlah[0]++;
-                showJumlah.setText(String.valueOf(jumlah[0]));
-            }
+        tambah.addActionListener(e -> {
+            jumlah[0]++;
+            showJumlah.setText(String.valueOf(jumlah[0]));
         });
 
         JButton turun = new JButton("v");
@@ -182,35 +178,26 @@ public class Main {
         turun.setBorder(BorderFactory.createLineBorder(Color.black));
         turun.setBounds(675,209,50,27);
         home.add(turun);
-        turun.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(jumlah[0]==0){
-                    showJumlah.setText(String.valueOf(jumlah[0]));
-                }
-                else {
-                    jumlah[0]--;
-                    showJumlah.setText(String.valueOf(jumlah[0]));
-                }
+        turun.addActionListener(e -> {
+            if(jumlah[0]==0){
+                showJumlah.setText(String.valueOf(jumlah[0]));
+            }
+            else {
+                jumlah[0]--;
+                showJumlah.setText(String.valueOf(jumlah[0]));
             }
         });
 
-        ActionListener cekRute = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                titik[0] = (String) tAwal.getSelectedItem();
-                titik[1] = (String) tAkhir.getSelectedItem();
-                String fromCity = tAwal.getSelectedItem().toString();
-                String toCity = tAkhir.getSelectedItem().toString();
-                String c = p.checkRoute(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString());
-                warning.setText(c);
-                warning.setVisible(true);
+        ActionListener cekRute = e -> {
+            titik[0] = (String) tAwal.getSelectedItem();
+            titik[1] = (String) tAkhir.getSelectedItem();
+            String fromCity = tAwal.getSelectedItem().toString();
+            String toCity = tAkhir.getSelectedItem().toString();
+            String c = p.checkRoute(tAwal.getSelectedItem().toString(), tAkhir.getSelectedItem().toString());
+            warning.setText(c);
+            warning.setVisible(true);
 
-                if(c.equals(" ")){
-                    t[0] = true;
-                } else {
-                    t[0] = false;
-                }
-            }
+            t[0] = c.equals(" ");
         };
 
         tAwal.addActionListener(cekRute);
@@ -218,14 +205,11 @@ public class Main {
 
         int[] price = {0};
 
-        ActionListener updateHarga = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String fromCity = tAwal.getSelectedItem().toString();
-                String toCity = tAkhir.getSelectedItem().toString();
-                price[0] = p.getHarga(fromCity, toCity);
-                display.setText("Rp. " + price[0]);
-            }
+        ActionListener updateHarga = e -> {
+            String fromCity = tAwal.getSelectedItem().toString();
+            String toCity = tAkhir.getSelectedItem().toString();
+            price[0] = p.getHarga(fromCity, toCity);
+            display.setText("Rp. " + price[0]);
         };
 
         tAwal.addActionListener(updateHarga);
@@ -263,77 +247,75 @@ public class Main {
         home.setVisible(true);
 
         // Buka layout page
-        layout.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                boolean[] b = {false, false};
+        layout.addActionListener(e -> {
+            boolean[] b = {false, false};
 
-                //cek apkah isi nik mengandung huruf alphabet
+            //cek apkah isi nik mengandung huruf alphabet
+            for (String s : alphabet) {
+                if (!(isiNik.getText().toUpperCase().contains(s))) {
+                    b[0] = false;
+                    break;
+                }
+            }
+
+            //cek apkah isi nik sudah tidak mengandung huruf alphabet
+            for (String s : alphabet) {
+                if (!(isiNoHP.getText().toUpperCase().contains(s))) {
+                    b[1] = false;
+                    break;
+                }
+            }
+
+            //munculin si warning letter
+            warn3.setVisible(b[0]);
+            warn4.setVisible(b[1]);
+
+            if (isiNama.getText().isEmpty()) {
+                warn[0].setVisible(true);
+            }
+            else{
+                warn[0].setVisible(false);
+            }
+            if (isiNik.getText().isEmpty()) {
+                warn[1].setVisible(true);
+            }
+            else{
+                warn[1].setVisible(false);
+
                 for (String s : alphabet) {
+                    if (isiNik.getText().toUpperCase().contains(s)) {
+                        b[0] = true;
+                        break;
+                    }
                     if (!(isiNik.getText().toUpperCase().contains(s))) {
                         b[0] = false;
                         break;
                     }
                 }
 
-                //cek apkah isi nik sudah tidak mengandung huruf alphabet
+                warn[3].setVisible(b[0]);
+            }
+            if (isiNoHP.getText().isEmpty()) {
+                warn[2].setVisible(true);
+            }
+            else{
+                warn[2].setVisible(false);
                 for (String s : alphabet) {
-                    if (!(isiNoHP.getText().toUpperCase().contains(s))) {
-                        b[1] = false;
+                    if (isiNoHP.getText().toUpperCase().contains(s)) {
+                        b[1] = true;
                         break;
                     }
                 }
+                warn[4].setVisible(b[1]);
 
-                //munculin si warning letter
-                warn3.setVisible(b[0]);
-                warn4.setVisible(b[1]);
+            }
 
-                if (isiNama.getText().isEmpty()) {
-                    warn[0].setVisible(true);
-                }
-                else{
-                    warn[0].setVisible(false);
-                }
-                if (isiNik.getText().isEmpty()) {
-                    warn[1].setVisible(true);
-                }
-                else{
-                    warn[1].setVisible(false);
-
-                    for (String s : alphabet) {
-                        if (isiNik.getText().toUpperCase().contains(s)) {
-                            b[0] = true;
-                            break;
-                        }
-                        if (!(isiNik.getText().toUpperCase().contains(s))) {
-                            b[0] = false;
-                            break;
-                        }
-                    }
-
-                    warn[3].setVisible(b[0]);
-                }
-                if (isiNoHP.getText().isEmpty()) {
-                    warn[2].setVisible(true);
-                }
-                else{
-                    warn[2].setVisible(false);
-                    for (String s : alphabet) {
-                        if (isiNoHP.getText().toUpperCase().contains(s)) {
-                            b[1] = true;
-                            break;
-                        }
-                    }
-                    warn[4].setVisible(b[1]);
-
-                }
-
-                if (!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
-                    if (t[0] && !b[0] && !b[1]) {
-                        nik1[0] = Long.parseLong(isiNik.getText());
-                        no[0] = Long.parseLong(isiNoHP.getText());
-                        new Bis(isiNama.getText(), nik1[0], no[0], titik[0], titik[1], price[0], jumlah[0]);
-                        //home.setVisible(false);
-                    }
+            if (!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
+                if (t[0] && !b[0] && !b[1]) {
+                    nik1[0] = Long.parseLong(isiNik.getText());
+                    no[0] = Long.parseLong(isiNoHP.getText());
+                    new Bis(isiNama.getText(), nik1[0], no[0], titik[0], titik[1], price[0], jumlah[0]);
+                    home.setVisible(false);
                 }
             }
         });
