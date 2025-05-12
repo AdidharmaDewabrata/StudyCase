@@ -244,8 +244,6 @@ public class HomePage extends JFrame {
         warn[3].setBounds(180, 120, 200, 25);
         warn[4].setBounds(180, 180, 200, 25);
 
-        home.setVisible(true);
-
         // Buka layout page
         layout.addActionListener(e -> {
             boolean[] b = {false, false};
@@ -309,6 +307,8 @@ public class HomePage extends JFrame {
                 warn[4].setVisible(b[1]);
 
             }
+
+            home.setVisible(true);
 
             if (!Objects.equals(isiNama.getText(), "") && !Objects.equals(isiNoHP.getText(), "") && !Objects.equals(isiNik.getText(), "")) {
                 if (t[0] && !b[0] && !b[1]) {

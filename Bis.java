@@ -4,11 +4,43 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Bis extends HomePage{
-    static int[] counter = {1}; static boolean flag = false;
+    static int[] counter = {1}; static boolean flag = false; static int index1=0;
     static String[] kursi = new String[jumlah[0]]; static String s = "";
     public Bis(String nama, long nik, long noHP, String tAwal, String tAkhir, int harga, int jumlah) {
+
+    //read file dari data.txt trus bikin kursi yang uda dibook jadi merah
+        Scanner sc;
+        try (BufferedReader reader = new BufferedReader(new FileReader("data.txt"))) {
+            while(reader.readLine() !=null){
+                index1++;
+            }
+        } catch (IOException d) {
+            System.err.println(d);
+        }
+
+        String[][] ListKursi = new String[index1][9];
+
+        try(BufferedReader reader = new BufferedReader(new FileReader("data.txt"))){
+            int o = 0;
+            String s;
+            while ((s = reader.readLine()) != null && o < ListKursi.length) {
+                sc = new Scanner(s);
+                int u = 0;
+                while (sc.hasNext() && u < 9) {
+                    ListKursi[o][u] = sc.next();
+                    u++;
+                }
+                o++;
+            }
+        } catch (IOException e) {
+        throw new RuntimeException(e);
+        }
+
         //frame layout
         JFrame frame = new JFrame();
         frame.setSize(600, 800);
@@ -124,6 +156,38 @@ public class Bis extends HomePage{
         warn.setBounds(370, 670, 200, 40);
         warn.setVisible(false);
         kursiPanel.add(warn);
+        //warning label kursi uda di book
+        JLabel warn2 = new JLabel("Kursi telah dipenuhi");
+        warn.setForeground(Color.red);
+        warn.setBounds(370, 670, 200, 40);
+        warn.setVisible(false);
+        kursiPanel.add(warn2);
+
+        //ganti warna kursi kalo kursi uda di book
+        String c = " ";
+        int jmlKursi =0;
+        ArrayList<String> kursii = new ArrayList<>();
+        for(int i = 0; i < index1;i++){
+            c = ListKursi[i][8];
+            String[] seat = c.split("-");
+            jmlKursi+=seat.length;
+            kursii.addAll(Arrays.asList(seat));
+        }
+
+        for(int i = 0; i<index1; i++){
+            for(int j = 0; j<B.length; j++){
+                for(int k = 0; k<jmlKursi; k++){
+                    if(B[j].getText().equals(kursii.get(k))){
+                        B[j].setBackground(Color.red);
+                    }
+                    if(j<18){
+                        if(A[j].getText().equals(kursii.get(k))){
+                            A[j].setBackground(Color.red);
+                        }
+                    }
+                }
+            }
+        }
 
         // ganti warna if clicked
         for(int i = 0; i<B.length; i++){
@@ -138,7 +202,7 @@ public class Bis extends HomePage{
                                 flag = false;
                             }
                         }
-                        else {
+                        else if(B[finalI].getBackground() == Color.green){
                             if(counter[0]>jumlah) {
                                 warn.setVisible(true);
                             } else {
@@ -166,7 +230,7 @@ public class Bis extends HomePage{
                                     flag = false;
                                 }
                             }
-                            else {
+                            else if(A[finalI].getBackground() == Color.yellow){
                                 if(counter[0]>jumlah) {
                                     warn.setVisible(true);
                                 } else {
@@ -177,6 +241,9 @@ public class Bis extends HomePage{
                                     counter[0]++;
                                     A[finalI].setBackground(Color.yellow);
                                 }
+                            }
+                            else{
+                                warn2.setVisible(true);
                             }
                         }
                         });
@@ -198,6 +265,7 @@ public class Bis extends HomePage{
                         String u = s.substring(0,s.length()-1)+space;
                         s="";
                         counter[0]=1;
+                        index1=0;
                         new ConfirmData(nama, nik, noHP, tAwal, tAkhir, harga, jumlah, u);
                         frame.setVisible(false);
                 }
