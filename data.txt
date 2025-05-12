@@ -1,2 +1,3 @@
-1 test1 123 321 Wilangan Gendingan 1 45000 B4
-
+1 tobby 234 123 Solo Jogja 1 15000 B2 
+2 willy 234 890 Kartosuro Jogja 1 15000 A7 
+3 asma 564 789 Solo Kartosuro 1 15000 A9 

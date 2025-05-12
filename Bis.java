@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-public class Bis extends Main{
+public class Bis extends HomePage{
     static int[] counter = {1}; static boolean flag = false;
     static String[] kursi = new String[jumlah[0]]; static String s = "";
     public Bis(String nama, long nik, long noHP, String tAwal, String tAkhir, int harga, int jumlah) {
@@ -196,6 +196,8 @@ public class Bis extends Main{
                 if(!(flag)) {
                         char space = ' ';
                         String u = s.substring(0,s.length()-1)+space;
+                        s="";
+                        counter[0]=1;
                         new ConfirmData(nama, nik, noHP, tAwal, tAkhir, harga, jumlah, u);
                         frame.setVisible(false);
                 }

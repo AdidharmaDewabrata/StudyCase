@@ -14,6 +14,7 @@ public class ConfirmData extends Pelanggan {
         File file = new File("data.txt");
         if(file.length()==0){
             flag=true;
+            counter[0]++;
         }
         else {
             try (BufferedReader reader = new BufferedReader(new FileReader("data.txt"))) {
@@ -56,9 +57,15 @@ public class ConfirmData extends Pelanggan {
         panel.setBorder(BorderFactory.createLineBorder(Color.black));
         panel.setLayout(null);
         frame.add(panel);
-
+        //Warning cm bisa pencet sekali
+        JLabel warn = new JLabel("Data telah ter-input");
+        warn.setForeground(Color.red);
+        warn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        warn.setBounds(367,530,200,30);
+        warn.setVisible(false);
+        frame.add(warn);
+        //totalharga
         int Tharga = jumlah*harga;
-
         // Column titles
         String[] columns = {"No", "Nama", "NIK Penumpang", "No HP", "Titik Awal", "Titik Akhir", "Jumlah Tiket", "Total Harga", "Kursi"};
         String[][] data1 = new String[counter[0]][9];
@@ -68,21 +75,26 @@ public class ConfirmData extends Pelanggan {
                 data1[i][j] = " ";
             }
         }
-
+        //tombol tambah data
         JButton add = new JButton("Tambah Data");
-        add.setBounds(490, 150,200, 30);
+        add.setBounds(350, 500,200, 30);
         add.setBackground(Color.WHITE);
         add.setVisible(true);
-        panel.add(add);
-
-        // Custom table model with overridden isCellEditable
+        frame.add(add);
+        //tombol balek ke homepage
+        JButton back = new JButton("Home Page");
+        back.setBounds(50, 500,200, 30);
+        back.setBackground(Color.WHITE);
+        back.setVisible(true);
+        frame.add(back);
+        // biar tabel gbs di edit
         DefaultTableModel model = new DefaultTableModel(data1, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // No cell is editable
             }
         };
-        System.out.println("ini jumlah counter sebelum munculin data di file: "+counter[0]);
+
         for (int i = 0; i < counter[0]; i++) {
             for (int j = 0; j < 9; j++) {
                 model.setValueAt(dataa[i][j], i, j);
@@ -93,7 +105,7 @@ public class ConfirmData extends Pelanggan {
             public void actionPerformed(ActionEvent e) {
                 //action yang bakalan dilakuin klo file data.txt kosong
                 if(flag){
-                    model.setValueAt(String.valueOf(counter[0]), 0, 0);
+                    model.setValueAt(String.valueOf(counter[0]+1), 0, 0);
                     model.setValueAt(nama, 0, 1);
                     model.setValueAt(String.valueOf(nik), 0, 2);
                     model.setValueAt(String.valueOf(nohp), 0, 3);
@@ -114,20 +126,30 @@ public class ConfirmData extends Pelanggan {
                     counter[0]++;
                 }
                 else{
-                    //nambahin data baru ke dalem file data.txt
-                    counter[0]++;
-                    String[][] data = {
-                            {String.valueOf(counter[0]), nama, String.valueOf(nik), String.valueOf(nohp), tAwal, tAkhir, String.valueOf(jumlah), String.valueOf(Tharga)}
-                    };
-                    model.addRow(data);
+                    if(index2==0) {
+                        //nambahin data baru ke dalem file data.txt
+                        counter[0]++;
+                        String[] data = {String.valueOf(counter[0]), nama, String.valueOf(nik), String.valueOf(nohp), tAwal, tAkhir, String.valueOf(jumlah), String.valueOf(Tharga), kursi };
+                        model.addRow(data);
 
-                    try(PrintWriter writer = new PrintWriter(new FileWriter("data.txt", true))){
-                        writer.print(counter[0]+" ");       writer.print(nama+" ");      writer.print(nik+" ");        writer.print(nohp+" ");
-                        writer.print(tAwal+" ");             writer.print(tAkhir+" ");     writer.print(jumlah+" ");       writer.print(Tharga+" ");
-                        writer.print(kursi);
-                        writer.println();
-                    } catch(IOException d){
-                        System.err.println(d);
+                        try (PrintWriter writer = new PrintWriter(new FileWriter("data.txt", true))) {
+                            writer.print(counter[0] + " ");
+                            writer.print(nama + " ");
+                            writer.print(nik + " ");
+                            writer.print(nohp + " ");
+                            writer.print(tAwal + " ");
+                            writer.print(tAkhir + " ");
+                            writer.print(jumlah + " ");
+                            writer.print(Tharga + " ");
+                            writer.print(kursi);
+                            writer.println();
+                        } catch (IOException d) {
+                            System.err.println(d);
+                        }
+                        index2++;
+                    }
+                    else{
+                        warn.setVisible(true);
                     }
                 }
             }
@@ -193,6 +215,14 @@ public class ConfirmData extends Pelanggan {
         isiHarga1.setEditable(false);
         isiHarga1.setBounds(490,110,200,20);
 
+        //back button action
+        back.addActionListener(e -> {
+            index2=0;
+            counter[0]=0;
+            flag=false;
+            new HomePage();
+           frame.setVisible(false);
+        });
 
         // Add components to frame
         frame.add(title);               panel.add(titikAwal);
