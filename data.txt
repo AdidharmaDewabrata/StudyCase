@@ -1,7 +1,0 @@
-1 tobby 234 123 Solo Jogja 4 60000 B2-B3-B4-B5
-2 willy 234 890 Kartosuro Jogja 1 15000 A7 
-3 asma 564 789 Solo Kartosuro 1 15000 A9 
-4 octa 888 888 Jogja Magelang 1 15000 A4 
-5 tibyani 345 654 Gendingan Kartosuro 1 35000 A3 
-6 sulthan 34 5678 Wilangan Solo 2 110000 B11-B12 
-7 ocaa 4567 345 Kartosuro Jogja 1 15000 B15 
