@@ -319,6 +319,8 @@ public class HomePage extends JFrame {
                 }
             }
         });
+        home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        home.setVisible(true);
     }
 }
 
