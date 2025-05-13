@@ -87,6 +87,11 @@ public class ConfirmData extends Pelanggan {
         back.setBackground(Color.WHITE);
         back.setVisible(true);
         frame.add(back);
+        //tombol clear data
+        JButton clear = new JButton("Clear Data");
+        clear.setBounds(650, 500, 200, 30);
+        clear.setBackground(Color.WHITE);
+        clear.setVisible(true);
         // biar tabel gbs di edit
         DefaultTableModel model = new DefaultTableModel(data1, columns) {
             @Override
@@ -224,8 +229,21 @@ public class ConfirmData extends Pelanggan {
            frame.setVisible(false);
         });
 
+        //clear button action
+        clear.addActionListener(e -> {
+           for(int i = 0; i < counter[0]; i++){
+               model.removeRow(i);
+           }
+
+           try(PrintWriter writer = new PrintWriter(new FileWriter("data.txt", false))){
+                writer.print("");
+           }catch(IOException d){
+               System.err.println(d);
+           }
+        });
+
         // Add components to frame
-        frame.add(title);               panel.add(titikAwal);
+        frame.add(title);               panel.add(titikAwal);           frame.add(clear);
         panel.add(name);                panel.add(titikAkhir);
         panel.add(nik1);                panel.add(jumlahTiket);
         panel.add(no);                  panel.add(harga1);
