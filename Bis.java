@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Bis extends HomePage{
@@ -24,6 +25,7 @@ public class Bis extends HomePage{
         }
 
         String[][] ListKursi = new String[index1][9];
+        String[] list = new String[]{"Wilangan", "Ngawi", "Gendingan", "Solo", "Kartosuro", "Jogja", "Magelang"};
 
         try(BufferedReader reader = new BufferedReader(new FileReader("data.txt"))){
             int o = 0;
@@ -164,15 +166,37 @@ public class Bis extends HomePage{
         kursiPanel.add(warn2);
 
         //ganti warna kursi kalo kursi uda di book
-        String c = " ";
+        String c = " ", d = " ";
         int jmlKursi =0;
+        int[] chairQty = new int[index1];
         ArrayList<String> kursii = new ArrayList<>();
         for(int i = 0; i < index1;i++){
             c = ListKursi[i][8];
+            if (c == null) continue;
             String[] seat = c.split("-");
             jmlKursi+=seat.length;
+            chairQty[i] = jmlKursi;
             kursii.addAll(Arrays.asList(seat));
         }
+        int value = 0, value2 = 0;
+
+        for (int i = 0; i < index1; i++) {
+            for(int j = 0; j < list.length; j++){
+                if(ListKursi[i][5].equalsIgnoreCase(list[j])){
+                    ListKursi[i][5] = String.valueOf(j);
+                }
+                if(ListKursi[i][4].equalsIgnoreCase(list[j])){
+                    ListKursi[i][4] = String.valueOf(j);
+                }
+                if (tAwal.equalsIgnoreCase(list[j])) {
+                    value = j;
+                }
+                if (tAkhir.equalsIgnoreCase(list[j])) {
+                    value2 = j;
+                }
+            }
+        }
+
 
         for(int i = 0; i<index1; i++){
             for(int j = 0; j<B.length; j++){
@@ -188,6 +212,37 @@ public class Bis extends HomePage{
                 }
             }
         }
+
+        System.out.println("ini titik akhir data lama: "+ListKursi[0][5]);
+        System.out.println("ini titik awal data lama: "+ListKursi[0][4]);
+        System.out.println("ini titik akhir data baru: "+value2);
+        System.out.println("ini titik awal data baru: "+value);
+        //ganti warna kursi kalau semisal titik awal data terbaru == titik akhir data lama
+        //value = tAwal | value2 = tAkhir
+        //"Wilangan", "Ngawi", "Gendingan", "Solo", "Kartosuro", "Jogja", "Magelang"
+        for (int i = 0; i < index1; i++) {
+            if (value2 <= Integer.parseInt(ListKursi[i][4]) || value >= Integer.parseInt(ListKursi[i][5])) {
+                int startIndex = (i == 0) ? 0 : chairQty[i - 1];
+                int endIndex = chairQty[i];
+
+                for (int j = 0; j < B.length; j++) {
+                    for (int k = startIndex; k < endIndex; k++) {
+                        if (B[j].getText().equals(kursii.get(k))) {
+                            B[j].setBackground(Color.green);
+                        }
+                        if (j < 18 && A[j].getText().equals(kursii.get(k))) {
+                            A[j].setBackground(Color.green);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        /*
+        jadi dia tu kek nyimpen dulu data lama titik akhir di array, terus dia bakalan nge check apakah tAwal data baru == tAkhir data lama
+        kalo iya berarti kayak kursi yang merah diubah warnany jadi hijau
+         */
 
         // ganti warna if clicked
         for(int i = 0; i<B.length; i++){
@@ -230,7 +285,7 @@ public class Bis extends HomePage{
                                     flag = false;
                                 }
                             }
-                            else if(A[finalI].getBackground() == Color.yellow){
+                            else if(A[finalI].getBackground() == Color.green){
                                 if(counter[0]>jumlah) {
                                     warn.setVisible(true);
                                 } else {
