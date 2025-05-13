@@ -11,6 +11,22 @@ import java.util.Scanner;
 public class Bis extends HomePage{
     static int[] counter = {1}; static boolean flag = false; static int index1=0;
     static String[] kursi = new String[jumlah[0]]; static String s = "";
+
+    //cekOverlap
+    public boolean isOverlap(String awal1, String akhir1, String awal2, String akhir2) {
+        String[] list = {"WILANGAN", "NGAWI", "GENDINGAN", "SOLO", "KARTOSURO", "JOGJA", "MAGELANG"};
+        int start1 = -1, end1 = -1, start2 = -1, end2 = -1;
+
+        for (int i = 0; i < list.length; i++) {
+            if (list[i].equalsIgnoreCase(awal1)) start1 = i;
+            if (list[i].equalsIgnoreCase(akhir1)) end1 = i;
+            if (list[i].equalsIgnoreCase(awal2)) start2 = i;
+            if (list[i].equalsIgnoreCase(akhir2)) end2 = i;
+        }
+
+        return (start1 < end2) && (start2 < end1);
+    }
+
     public Bis(String nama, long nik, long noHP, String tAwal, String tAkhir, int harga, int jumlah) {
 
     //read file dari data.txt trus bikin kursi yang uda dibook jadi merah
@@ -190,65 +206,88 @@ public class Bis extends HomePage{
         }
 
         // ganti warna if clicked
-        for(int i = 0; i<B.length; i++){
+        for (int i = 0; i < index1; i++) {
+            String tAwalLama = ListKursi[i][4];
+            String tAkhirLama = ListKursi[i][5];
+            String[] kursiLama = ListKursi[i][8].split("-");
+
+            if (isOverlap(tAwalLama, tAkhirLama, tAwal, tAkhir)) {
+                for (String kursiBooked : kursiLama) {
+                    kursiBooked = kursiBooked.trim();
+                    for (int j = 0; j < B.length; j++) {
+                        if (B[j].getText().equalsIgnoreCase(kursiBooked)) {
+                            B[j].setBackground(Color.RED);
+                            B[j].setEnabled(false);
+                        }
+                    }
+                    for (int j = 0; j < A.length; j++) {
+                        if (A[j].getText().equalsIgnoreCase(kursiBooked)) {
+                            A[j].setBackground(Color.RED);
+                            A[j].setEnabled(false);
+                        }
+                    }
+                }
+            }
+        }
+
+// Logika klik untuk pemilihan kursi
+        for(int i = 0; i < B.length; i++) {
             int finalI = i;
+
             B[i].addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if(B[finalI].getBackground() == Color.YELLOW) {
+                        counter[0]--;
+                        B[finalI].setBackground(Color.GREEN);
+                        if(counter[0] <= jumlah) {
+                            warn.setVisible(false);
+                            flag = false;
+                        }
+                    } else if(B[finalI].getBackground() == Color.GREEN) {
+                        if(counter[0] > jumlah) {
+                            warn.setVisible(true);
+                        } else {
+                            warn.setVisible(false);
+                            flag = false;
+                            kursi[counter[0]-1] = B[finalI].getText();
+                            s += kursi[counter[0]-1] + "-";
+                            counter[0]++;
+                            B[finalI].setBackground(Color.YELLOW);
+                        }
+                    }
+                }
+            });
+
+            if(i < 18) {
+                int finalI1 = i;
+                A[i].addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        if(B[finalI].getBackground() == Color.yellow){
+                        if(A[finalI1].getBackground() == Color.YELLOW) {
                             counter[0]--;
-                            B[finalI].setBackground(Color.green);
-                            if(counter[0] <= jumlah){
+                            A[finalI1].setBackground(Color.GREEN);
+                            if(counter[0] <= jumlah) {
                                 warn.setVisible(false);
                                 flag = false;
                             }
-                        }
-                        else if(B[finalI].getBackground() == Color.green){
-                            if(counter[0]>jumlah) {
+                        } else if(A[finalI1].getBackground() == Color.GREEN) {
+                            if(counter[0] > jumlah) {
                                 warn.setVisible(true);
                             } else {
                                 warn.setVisible(false);
                                 flag = false;
-                                kursi[counter[0]-1] = B[finalI].getText();
-                                s+= kursi[counter[0]-1]+"-";
+                                kursi[counter[0]-1] = A[finalI1].getText();
+                                s += kursi[counter[0]-1] + "-";
                                 counter[0]++;
-                                B[finalI].setBackground(Color.yellow);
+                                A[finalI1].setBackground(Color.YELLOW);
                             }
+                        } else {
+                            warn2.setVisible(true);
                         }
                     }
-
                 });
+            }
+        }
 
-                if(i<18) {
-                    int finalI1 = i;
-                    A[i].addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            if(A[finalI].getBackground() == Color.yellow){
-                                counter[0]--;
-                                A[finalI].setBackground(Color.green);
-                                if(counter[0] <= jumlah){
-                                    warn.setVisible(false);
-                                    flag = false;
-                                }
-                            }
-                            else if(A[finalI].getBackground() == Color.yellow){
-                                if(counter[0]>jumlah) {
-                                    warn.setVisible(true);
-                                } else {
-                                    warn.setVisible(false);
-                                    flag = false;
-                                    kursi[counter[0]-1] = A[finalI].getText();
-                                    s+= kursi[counter[0]-1]+"-";
-                                    counter[0]++;
-                                    A[finalI].setBackground(Color.yellow);
-                                }
-                            }
-                            else{
-                                warn2.setVisible(true);
-                            }
-                        }
-                        });
-                    }
-                }
 
         //Selanjutnya
         JButton next = new JButton();
