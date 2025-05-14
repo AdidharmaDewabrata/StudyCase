@@ -46,14 +46,15 @@ public class ConfirmData extends Pelanggan {
 
         // Frame setup
         JFrame frame = new JFrame("Confirm Data");
-        frame.setSize(900, 600);
+        frame.setSize(925, 600);
         frame.setLayout(null);
         frame.setBackground(Color.darkGray);
+        frame.getContentPane().setBackground(Color.decode("#9a8c98"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Panel setup
         JPanel panel = new JPanel();
-        panel.setBounds(0, 40, 900, 200);
-        panel.setBackground(Color.lightGray);
+        panel.setBounds(0, 55, 910, 185);
+        panel.setBackground(Color.decode("#c9ada7"));
         panel.setBorder(BorderFactory.createLineBorder(Color.black));
         panel.setLayout(null);
         frame.add(panel);
@@ -77,20 +78,23 @@ public class ConfirmData extends Pelanggan {
         }
         //tombol tambah data
         JButton add = new JButton("Tambah Data");
-        add.setBounds(350, 500,200, 30);
-        add.setBackground(Color.WHITE);
+        add.setForeground(Color.decode("#f9dcc4"));
+        add.setBounds(350, 515,200, 30);
+        add.setBackground(Color.decode("#4a4e69"));
         add.setVisible(true);
         frame.add(add);
         //tombol balek ke homepage
         JButton back = new JButton("Home Page");
-        back.setBounds(50, 500,200, 30);
-        back.setBackground(Color.WHITE);
+        back.setBounds(50, 515,200, 30);
+        back.setForeground(Color.decode("#f9dcc4"));
+        back.setBackground(Color.decode("#4a4e69"));
         back.setVisible(true);
         frame.add(back);
         //tombol clear data
         JButton clear = new JButton("Clear Data");
-        clear.setBounds(650, 500, 200, 30);
-        clear.setBackground(Color.WHITE);
+        clear.setBounds(650, 515, 200, 30);
+        clear.setForeground(Color.decode("#f9dcc4"));
+        clear.setBackground(Color.decode("#4a4e69"));
         clear.setVisible(true);
         // biar tabel gbs di edit
         DefaultTableModel model = new DefaultTableModel(data1, columns) {
@@ -110,6 +114,7 @@ public class ConfirmData extends Pelanggan {
             public void actionPerformed(ActionEvent e) {
                 //action yang bakalan dilakuin klo file data.txt kosong
                 if(flag){
+                    index2++;
                     model.setValueAt(String.valueOf(counter[0]+1), 0, 0);
                     model.setValueAt(nama, 0, 1);
                     model.setValueAt(String.valueOf(nik), 0, 2);
@@ -122,7 +127,7 @@ public class ConfirmData extends Pelanggan {
 
                     try(PrintWriter writer = new PrintWriter(new FileWriter("data.txt", true))){
                         writer.print(counter[0]+" ");       writer.print(nama+" ");      writer.print(nik+" ");        writer.print(nohp+" ");
-                        writer.print(tAwal+" ");             writer.print(tAkhir+" ");     writer.print(jumlah+" ");       writer.print(Tharga+" ");
+                        writer.print(tAwal+" ");            writer.print(tAkhir+" ");     writer.print(jumlah+" ");       writer.print(Tharga+" ");
                         writer.print(kursi);
                         writer.println();
                     } catch(IOException d){
@@ -131,94 +136,95 @@ public class ConfirmData extends Pelanggan {
                     counter[0]++;
                 }
                 else{
-                    if(index2==0) {
-                        //nambahin data baru ke dalem file data.txt
-                        counter[0]++;
-                        String[] data = {String.valueOf(counter[0]), nama, String.valueOf(nik), String.valueOf(nohp), tAwal, tAkhir, String.valueOf(jumlah), String.valueOf(Tharga), kursi };
-                        model.addRow(data);
-
-                        try (PrintWriter writer = new PrintWriter(new FileWriter("data.txt", true))) {
-                            writer.print(counter[0] + " ");
-                            writer.print(nama + " ");
-                            writer.print(nik + " ");
-                            writer.print(nohp + " ");
-                            writer.print(tAwal + " ");
-                            writer.print(tAkhir + " ");
-                            writer.print(jumlah + " ");
-                            writer.print(Tharga + " ");
-                            writer.print(kursi);
-                            writer.println();
-                        } catch (IOException d) {
-                            System.err.println(d);
-                        }
-                        index2++;
-                    }
-                    else{
+                    if(index2>0) {
                         warn.setVisible(true);
                     }
+                    else{
+                            //nambahin data baru ke dalem file data.txt
+                            counter[0]++;
+                            index2++;
+                            String[] data = {String.valueOf(counter[0]), nama, String.valueOf(nik), String.valueOf(nohp), tAwal, tAkhir, String.valueOf(jumlah), String.valueOf(Tharga), kursi };
+                            model.addRow(data);
+
+                            try (PrintWriter writer = new PrintWriter(new FileWriter("data.txt", true))) {
+                                writer.print(counter[0] + " ");
+                                writer.print(nama + " ");
+                                writer.print(nik + " ");
+                                writer.print(nohp + " ");
+                                writer.print(tAwal + " ");
+                                writer.print(tAkhir + " ");
+                                writer.print(jumlah + " ");
+                                writer.print(Tharga + " ");
+                                writer.print(kursi);
+                                writer.println();
+                            } catch (IOException d) {
+                                System.err.println(d);
+                            }
+                        }
+                    }
                 }
-            }
         });
 
         // Create table with data and column names
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 250, 900, 250);
+        scrollPane.setBounds(10, 250, 890, 250);
         frame.add(scrollPane);
 
         //Labels
         JLabel title = new JLabel("Data Penumpang");
-        title.setBounds(335, 10, 400, 30);
+        title.setBounds(380, 10, 400, 30);
         title.setFont(new Font("Arial", Font.BOLD, 25));
+        title.setForeground(Color.decode("#f9dcc4"));
 
         JLabel name = new JLabel("Nama Penumpang:");
-        name.setBounds(10, 50, 150, 20);
+        name.setBounds(10, 40, 150, 20);
         JTextField isiNama = new JTextField(nama);
         isiNama.setEditable(false);
-        isiNama.setBounds(170,50,200,20);
+        isiNama.setBounds(170,40,200,20);
 
         JLabel nik1 = new JLabel("NIK Penumpang:");
-        nik1.setBounds(10, 80, 150, 20);
+        nik1.setBounds(10, 70, 150, 20);
         JTextField isiNik = new JTextField(String.valueOf(nik));
         isiNik.setEditable(false);
-        isiNik.setBounds(170,80,200,20);
+        isiNik.setBounds(170,70,200,20);
 
         JLabel no = new JLabel("No HP:");
-        no.setBounds(10, 110, 150, 20);
+        no.setBounds(10, 100, 150, 20);
         JTextField isiNo = new JTextField(String.valueOf(nohp));
         isiNo.setEditable(false);
-        isiNo.setBounds(170,110,200,20);
+        isiNo.setBounds(170,100,200,20);
 
         JLabel titikAwal = new JLabel("Titik Awal:");
-        titikAwal.setBounds(10, 140, 150, 20);
+        titikAwal.setBounds(10, 130, 150, 20);
         JTextField isiTAwal = new JTextField(tAwal);
         isiTAwal.setEditable(false);
-        isiTAwal.setBounds(170,140,200,20);
+        isiTAwal.setBounds(170,130,200,20);
 
         JLabel titikAkhir = new JLabel("Titik Akhir:");
-        titikAkhir.setBounds(10, 170, 150, 20);
+        titikAkhir.setBounds(550, 130, 150, 20);
         JTextField isiTAkhir = new JTextField(tAkhir);
         isiTAkhir.setEditable(false);
-        isiTAkhir.setBounds(170,170,200,20);
+        isiTAkhir.setBounds(640,130,200,20);
 
         JLabel jumlahTiket = new JLabel("Jumlah Tiket:");
-        jumlahTiket.setBounds(400, 50, 150, 20);
+        jumlahTiket.setBounds(550, 40, 150, 20);
         JTextField isiJumlah = new JTextField(String.valueOf(jumlah));
         isiJumlah.setEditable(false);
-        isiJumlah.setBounds(490,50,200,20);
+        isiJumlah.setBounds(640,40,200,20);
 
         JLabel hargaTiket = new JLabel("Harga Tiket:");
-        hargaTiket.setBounds(400, 80, 150, 20);
+        hargaTiket.setBounds(550, 70, 150, 20);
         JTextField isiHarga = new JTextField(String.valueOf(harga));
         isiHarga.setEditable(false);
-        isiHarga.setBounds(490,80,200,20);
+        isiHarga.setBounds(640,70,200,20);
 
         JLabel harga1 = new JLabel("Total Harga:");
-        harga1.setBounds(400, 110, 150, 20);
+        harga1.setBounds(550, 100, 150, 20);
         JTextField isiHarga1 = new JTextField();
         isiHarga1.setText(String.valueOf(Tharga));
         isiHarga1.setEditable(false);
-        isiHarga1.setBounds(490,110,200,20);
+        isiHarga1.setBounds(640,100,200,20);
 
         //back button action
         back.addActionListener(e -> {
@@ -226,7 +232,7 @@ public class ConfirmData extends Pelanggan {
             counter[0]=0;
             flag=false;
             new HomePage();
-           frame.setVisible(false);
+            frame.setVisible(false);
         });
 
         //clear button action

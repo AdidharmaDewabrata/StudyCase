@@ -1,7 +1,7 @@
-  public class Main {
+import javax.swing.*;
+
+public class Main {
    public static void main(String[] args) {
-       new HomePage();
+       SwingUtilities.invokeLater(() -> new HomePage());
     }
 }
-
-
