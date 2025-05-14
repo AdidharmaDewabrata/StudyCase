@@ -260,7 +260,6 @@ public class HomePage extends JFrame {
 
         ImageIcon icon = new ImageIcon("C:\\Users\\adksp\\IdeaProjects\\StudyCase\\out\\Green Beige Organic Illustrative Brainstorm Presentation.png");
 
-// Optional: Scale down
         Image img = icon.getImage().getScaledInstance(450, 300, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(img);
 
@@ -274,8 +273,6 @@ public class HomePage extends JFrame {
             x3+=175;
         }
 
-
-// Put this AFTER adding image
         this.setVisible(true);
 
 
