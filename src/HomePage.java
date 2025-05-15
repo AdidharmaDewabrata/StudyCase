@@ -178,6 +178,7 @@ public class HomePage extends JFrame {
         turun.setBorder(BorderFactory.createLineBorder(Color.black));
         turun.setBounds(675,209,50,27);
         this.add(turun);
+
         //ini dijejerin satu dulu
         tambah.addActionListener(e -> {
             if(jumlah[0]==40){
