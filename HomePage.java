@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.Objects;
 
 public class HomePage extends JFrame {
-    static int[] jumlah = {0};
+    static int[] jumlah = {1};
     static Long[] nik1 = {0L};
     static Long[] no = {0L};
     static String[] titik  = {"tes", "toto"};
@@ -171,6 +171,39 @@ public class HomePage extends JFrame {
         tambah.setBounds(625,209,50,27);
         this.add(tambah);
 
+        JButton turun = new JButton("v");
+        turun.setFont(new Font("Tahoma", Font.BOLD, 17));
+        turun.setForeground(Color.decode("#f9dcc4"));
+        turun.setBackground(Color.decode("#4a4e69"));
+        turun.setBorder(BorderFactory.createLineBorder(Color.black));
+        turun.setBounds(675,209,50,27);
+        this.add(turun);
+        //mau yoba satuin bagian tambaha turujn
+//        boolean allowed = false;
+//        while(allowed==false){
+//            tambah.addActionListener(e -> {
+//                if(jumlah[0]==40){
+//                    showJumlah.setText(String.valueOf(jumlah[0]));
+//                }
+//                else {
+//                    jumlah[0]++;
+//                    showJumlah.setText(String.valueOf(jumlah[0]));
+//                }
+//            });
+//            turun.addActionListener(e -> {
+//                if(jumlah[0]==0){
+//                    showJumlah.setText(String.valueOf(jumlah[0]));
+//                }
+//                else {
+//                    jumlah[0]--;
+//                    showJumlah.setText(String.valueOf(jumlah[0]));
+//                }
+//            });
+//            if (jumlah[0]!=0){
+//                allowed = true;
+//            }
+//        }
+        //ini dijejerin satu dulu
         tambah.addActionListener(e -> {
             if(jumlah[0]==40){
                 showJumlah.setText(String.valueOf(jumlah[0]));
@@ -180,20 +213,12 @@ public class HomePage extends JFrame {
                 showJumlah.setText(String.valueOf(jumlah[0]));
             }
         });
-
-        JButton turun = new JButton("v");
-        turun.setFont(new Font("Tahoma", Font.BOLD, 17));
-        turun.setForeground(Color.decode("#f9dcc4"));
-        turun.setBackground(Color.decode("#4a4e69"));
-        turun.setBorder(BorderFactory.createLineBorder(Color.black));
-        turun.setBounds(675,209,50,27);
-        this.add(turun);
         turun.addActionListener(e -> {
-            if(jumlah[0]==0){
+            if(jumlah[0]>1){
+                jumlah[0]--;
                 showJumlah.setText(String.valueOf(jumlah[0]));
             }
             else {
-                jumlah[0]--;
                 showJumlah.setText(String.valueOf(jumlah[0]));
             }
         });
