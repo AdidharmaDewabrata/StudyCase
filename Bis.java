@@ -11,9 +11,9 @@
 
     public class Bis{
         static int[] counter = {1}; static boolean flag = false, notnull = false; static int index1=0; static int sisaKursi = 40;
-        static String[] kursi = new String[HomePage.jumlah[0]]; static String s = "";
+        static ArrayList<String> s = new ArrayList<>();
         public Bis(String nama, long nik, long noHP, String tAwal, String tAkhir, int harga, int jumlah) {
-
+            String[] kursi = new String[jumlah];
         //read file dari data.txt trus bikin kursi yang uda dibook jadi merah
             Scanner sc;
             try (BufferedReader reader = new BufferedReader(new FileReader("data.txt"))) {
@@ -165,8 +165,6 @@
             warn.setVisible(false);
             kursiPanel.add(warn2);
 
-            System.out.println(notnull);
-
             if(notnull) {
                 //ganti warna kursi kalo kursi uda di book
                 String c = " ", d = " ";
@@ -217,16 +215,6 @@
                     }
                 }
 
-    //        ini testing doang
-    //        System.out.println("ini titik akhir data lama: "+ListKursi[0][5]);
-    //        System.out.println("ini titik awal data lama: "+ListKursi[0][4]);
-    //        System.out.println("ini titik akhir data baru: "+value2);
-    //        System.out.println("ini titik awal data baru: "+value);
-
-                //ganti warna kursi kalau semisal titik awal data terbaru == titik akhir data lama
-                //value = tAwal | value2 = tAkhir
-                //"Wilangan", "Ngawi", "Gendingan", "Solo", "Kartosuro", "Jogja", "Magelang"
-
                 //Ganti warna kalo kursi udah kosong
                 for (int i = 0; i < index1; i++) {
                     if (value2 <= Integer.parseInt(ListKursi[i][4]) || value >= Integer.parseInt(ListKursi[i][5])) {
@@ -259,10 +247,8 @@
                 B[i].addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             if(Objects.equals(B[finalI].getBackground(), Color.decode("#d8a48f"))){
+                                s.remove(B[finalI].getText()+"-");
                                 counter[0]--;
-//                                if(s.contains(B[finalI].getText())){
-//
-//                                }
                                 B[finalI].setBackground(Color.decode("#efebce"));
                                 if(counter[0] <= jumlah){
                                     warn.setVisible(false);
@@ -277,7 +263,9 @@
                                     flag = false;
                                     kursi[counter[0]-1] = B[finalI].getText();
                                     if(!s.contains(B[finalI].getText())) {
-                                        s+= kursi[counter[0]-1]+"-";
+                                        s.add(B[finalI].getText()+"-");
+                                        counter[0]++;
+                                    } else{
                                         counter[0]++;
                                     }
                                     B[finalI].setBackground(Color.decode("#d8a48f"));
@@ -292,6 +280,7 @@
                         A[i].addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
                                 if(Objects.equals(A[finalI].getBackground(), Color.decode("#d8a48f"))){
+                                    s.remove(A[finalI1].getText()+"-");
                                     counter[0]--;
                                     A[finalI].setBackground(Color.decode("#efebce"));
                                     if(counter[0] <= jumlah){
@@ -307,9 +296,10 @@
                                         flag = false;
                                         kursi[counter[0]-1] = A[finalI].getText();
                                         if(!s.contains(A[finalI].getText())) {
-                                            s+= kursi[counter[0]-1]+"-";
+                                            s.add(A[finalI].getText()+"-");
                                             counter[0]++;
                                         }
+                                        else{ counter[0]++; }
                                         A[finalI].setBackground(Color.decode("#d8a48f"));
                                     }
                                 }
@@ -350,11 +340,15 @@
                         warn3.setVisible(true);
                     }
                     else if(jumlah+1 == counter[0] && !(flag)) {
-                            sisaKursi-=jumlah;
+                            warn3.setVisible(false);
                             char space = ' ';
-                            String u = s.substring(0, s.length() - 1) + space;
-                            new ConfirmData(nama, nik, noHP, tAwal, tAkhir, harga, jumlah, u);
-                            s = "";
+                            String u = s.toString();
+                            String p = u.replaceAll("[\\[\\],\\s]", "");
+                            if(p.charAt(p.length()-1)=='-') {
+                                p = p.substring(0, p.length() - 1);
+                            }
+                        new ConfirmData(nama, nik, noHP, tAwal, tAkhir, harga, jumlah, p);
+                            s.clear();
                             counter[0] = 1;
                             index1 = 0;
                             frame.setVisible(false);

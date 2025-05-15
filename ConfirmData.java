@@ -237,7 +237,7 @@ public class ConfirmData extends Pelanggan {
 
         //clear button action
         clear.addActionListener(e -> {
-           for(int i = 0; i < counter[0]; i++){
+           for(int i = model.getRowCount() - 1; i >= 0; i--){
                model.removeRow(i);
            }
 
